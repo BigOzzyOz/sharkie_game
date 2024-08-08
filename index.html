@@ -5,16 +5,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sharkie</title>
+  <link rel="shortcut icon" href="assets/favicon/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="style/style.css">
 
+  <script src="assets/models/moveableObjects.class.js"></script>
+  <script src="assets/models/character.class.js"></script>
+  <script src="assets/models/jellyFish.class.js"></script>
+  <script src="assets/models/pufferFish.class.js"></script>
+  <script src="assets/models/boss.class.js"></script>
+  <script src="assets/models/worl.class.js"></script>
   <script src="script/game.js"></script>
 </head>
 
-<body>
+<body onload="init()">
 
   <h1>Sharkie</h1>
 
-  <canvas width="720" height="480">
+  <canvas id="canvas" width="720" height="480">
 
 
   </canvas>
