@@ -1,5 +1,4 @@
 class Pufferfish extends MoveableObject {
-  x = 340;
   height = 50;
   width = 50;
   variant;
@@ -19,6 +18,7 @@ class Pufferfish extends MoveableObject {
       this.y = 300;
     }
 
-
+    this.x = 340 + Math.floor(Math.random() * 100);
+    this.y = 100 + Math.floor(Math.random() * 200);
   }
 }

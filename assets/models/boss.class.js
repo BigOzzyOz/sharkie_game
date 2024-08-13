@@ -1,5 +1,5 @@
 class Boss extends MoveableObject {
-  x = 540;
+  x = 400;
   height = 300;
   width = 300;
 
