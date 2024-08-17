@@ -3,8 +3,11 @@ class MoveableObject {
   y = 100;
   height = 100;
   width = 100;
+  speed = 5;
   img;
+  currentImage = 0;
   imageCache = {};
+  turnAround = false;
 
   constructor() {
 

@@ -50,8 +50,6 @@ class Jellyfish extends MoveableObject {
     this.x = 200 + Math.floor(Math.random() * 140);
     this.y = 50 + Math.floor(Math.random() * 200);
     this.floatHeight = this.y;
-    this.state = 'sinking';
-    this.counter = 0;
     this.direction = 'sinking';
     this.swimHeight;
     this.breakTime = 0.6;

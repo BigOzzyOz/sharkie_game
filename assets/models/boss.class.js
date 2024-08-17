@@ -3,8 +3,6 @@ class Boss extends MoveableObject {
   height = 300;
   width = 300;
 
-  currentImage = 0;
-
   moveSetFloating = [
     'assets/img/2.Enemy/3 Final Enemy/2.floating/1.png',
     'assets/img/2.Enemy/3 Final Enemy/2.floating/2.png',
