@@ -1,11 +1,6 @@
 class World {
   level = level1;
-
   character = new Character();
-  enemies = this.level.enemies;
-  backgroundImageSet1 = this.level.backgroundImageSet1;
-  backgroundImageSet2 = this.level.backgroundImageSet2;
-
   backgroundImage = [];
   canvas;
   ctx;
@@ -26,11 +21,11 @@ class World {
     for (let i = -1; i < 9; i++) {
       if (i % 2 === 0) {
         for (let j = 0; j < 5; j++) {
-          this.backgroundImage.push(new Background(this.backgroundImageSet1[j], i * 720));
+          this.backgroundImage.push(new Background(this.level.backgroundImageSet1[j], i * 720));
         };
       } else {
         for (let j = 0; j < 5; j++) {
-          this.backgroundImage.push(new Background(this.backgroundImageSet2[j], i * 720));
+          this.backgroundImage.push(new Background(this.level.backgroundImageSet2[j], i * 720));
         };
       }
     };
@@ -43,7 +38,7 @@ class World {
     this.ctx.translate(this.camera_x, 0);
 
     this.addObjectToMap(this.backgroundImage);
-    this.addObjectToMap(this.enemies);
+    this.addObjectToMap(this.level.enemies);
     this.addToMap(this.character);
 
     this.ctx.translate(-this.camera_x, 0);

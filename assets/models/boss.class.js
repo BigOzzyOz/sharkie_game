@@ -22,15 +22,12 @@ class Boss extends MoveableObject {
   constructor() {
     super();
     this.loadImages(this.moveSetFloating);
-    this.img = this.imageCache[0];
     this.animate();
   }
 
   animate() {
     setInterval(() => {
-      let i = this.currentImage % this.moveSetFloating.length;
-      this.img = this.imageCache[i];
-      this.currentImage++;
+      this.setAnimation(this.moveSetFloating);
     }, 100);
 
   }

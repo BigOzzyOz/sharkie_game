@@ -35,18 +35,18 @@ class Jellyfish extends MoveableObject {
     super();
     this.variant = Math.floor(Math.random() * 4) + 1;
     if (this.variant == 1) {
-      this.loadImages(this.moveSetSwimLila);
+      this.currentMoveSet = this.moveSetSwimLila;
     }
     if (this.variant == 2) {
-      this.loadImages(this.moveSetSwimYellow);
+      this.currentMoveSet = this.moveSetSwimYellow;
     }
     if (this.variant == 3) {
-      this.loadImages(this.moveSetSwimGreen);
+      this.currentMoveSet = this.moveSetSwimGreen;
     }
     if (this.variant == 4) {
-      this.loadImages(this.moveSetSwimPink);
+      this.currentMoveSet = this.moveSetSwimPink;
     }
-    this.img = this.imageCache[3];
+    this.loadImages(this.currentMoveSet);
     this.x = 200 + Math.floor(Math.random() * 140);
     this.y = 50 + Math.floor(Math.random() * 200);
     this.floatHeight = this.y;
@@ -79,7 +79,8 @@ class Jellyfish extends MoveableObject {
 
 
   sinkingStart() {
-    this.img = this.imageCache[2];
+    !this.applyGravity ? this.startGravity() : '';
+    this.img = this.imageCache[this.currentMoveSet[2]];
     this.y += 2;
     this.direction = 'sinking';
   }
@@ -87,22 +88,23 @@ class Jellyfish extends MoveableObject {
 
   sinkingEnd() {
     this.y += 2;
-    this.img = this.img == this.imageCache[2] ? this.imageCache[3] : this.imageCache[2];
+    this.img = this.img == this.imageCache[this.currentMoveSet[2]] ? this.imageCache[this.currentMoveSet[3]] : this.imageCache[this.currentMoveSet[2]];
     if (this.y >= 380) {
-      this.img = this.imageCache[0];
+      this.stopGravity();
+      this.img = this.imageCache[this.currentMoveSet[0]];
       this.direction = 'swimming';
       this.swimHeight = this.y - (Math.floor(Math.random() * 35) + 40);
     } else if (this.y >= 370) {
-      this.img = this.imageCache[3];
+      this.img = this.imageCache[this.currentMoveSet[3]];
     }
   }
 
 
   swimUp() {
     this.y -= 6;
-    this.img = this.imageCache[1];
+    this.img = this.imageCache[this.currentMoveSet[1]];
     if (this.y <= this.swimHeight) {
-      this.img = this.imageCache[3];
+      this.img = this.imageCache[this.currentMoveSet[3]];
       this.direction = 'breaking';
       this.breakCounter = 0;
     }
@@ -113,7 +115,7 @@ class Jellyfish extends MoveableObject {
     this.breakCounter += 0.15;
     this.y += 2;
     if (this.breakCounter >= this.breakTime) {
-      this.img = this.imageCache[0];
+      this.img = this.imageCache[this.currentMoveSet[0]];
       this.direction = 'swimming';
       this.swimHeight = this.y - (Math.floor(Math.random() * 35) + 40);
       this.breakCounter = 0;
