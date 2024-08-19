@@ -1,4 +1,5 @@
 class MoveableObject {
+  world;
   x = 20;
   y = 100;
   height = 100;
@@ -43,7 +44,8 @@ class MoveableObject {
 
 
   isAboveGround() {
-    return this.y <= 480 - this.height;
+    let ground = this.world ? this.world.canvas.height - this.height : 1000;
+    return this.y <= ground;
   }
 
 
@@ -60,7 +62,7 @@ class MoveableObject {
       this.imageCache[path] = img;
     }
     );
-    this.img = this.imageCache[this.currentImage[0]];
+    this.img = this.imageCache[this.currentMoveSet[0]];
   }
 
 
@@ -81,12 +83,12 @@ class MoveableObject {
   frameDraw(ctx) {
     if (this instanceof Character || this instanceof Jellyfish || this instanceof Pufferfish || this instanceof Boss) {
       ctx.beginPath();
-      ctx.strokeStyle = '#0f0';  // some color/style
-      ctx.lineWidth = 3;         // thickness
+      ctx.strokeStyle = '#0f0';
+      ctx.lineWidth = 3;
       ctx.strokeRect(this.x, this.y, this.width, this.height);
       ctx.beginPath();
-      ctx.strokeStyle = '#f00';  // some color/style
-      ctx.lineWidth = 3;         // thickness
+      ctx.strokeStyle = '#f00';
+      ctx.lineWidth = 3;
       ctx.strokeRect(this.x + this.offset.left, this.y + this.offset.top, this.width - this.offset.right - this.offset.left, this.height - this.offset.bottom - this.offset.top);
     }
   }
@@ -131,7 +133,6 @@ class MoveableObject {
       this.x + this.offset.left <= obj.x + obj.width - obj.offset.right &&
       this.y + this.height - this.offset.bottom >= obj.y + obj.offset.top &&
       this.y + this.offset.top <= obj.y + obj.height - obj.offset.bottom;
-
   }
 
 }

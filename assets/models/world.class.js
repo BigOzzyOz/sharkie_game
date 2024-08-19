@@ -19,14 +19,17 @@ class World {
 
   setWorld() {
     this.character.world = this;
+    this.level.enemies.forEach((enemy) => {
+      enemy.world = this;
+    });
     for (let i = -1; i < 9; i++) {
       if (i % 2 === 0) {
         for (let j = 0; j < 5; j++) {
-          this.backgroundImage.push(new Background(this.level.backgroundImageSet1[j], i * 720));
+          this.backgroundImage.push(new Background(this.level.backgroundImageSet1[j], i * this.canvas.width, this.canvas.width, this.canvas.height));
         };
       } else {
         for (let j = 0; j < 5; j++) {
-          this.backgroundImage.push(new Background(this.level.backgroundImageSet2[j], i * 720));
+          this.backgroundImage.push(new Background(this.level.backgroundImageSet2[j], i * this.canvas.width, this.canvas.width, this.canvas.height));
         };
       }
     };

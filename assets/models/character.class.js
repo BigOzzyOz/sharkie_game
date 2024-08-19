@@ -1,5 +1,4 @@
 class Character extends MoveableObject {
-  world;
   height = 200;
   width = 200;
   idleCounter = 0;
@@ -123,42 +122,18 @@ class Character extends MoveableObject {
 
   animate() {
     setInterval(() => {
-      this.world.camera_x = -this.x + 25;
-      if (this.world.keyboard.RIGHTUP && this.y > 0 - 25 && this.x < 720 * 8 - this.width) {
-        this.swimRight();
-        this.swimUp();
-        this.turnAround = false;
-      } else if (this.world.keyboard.RIGHTDOWN && this.y < 480 - this.height && this.x < 720 * 8 - this.width) {
-        this.swimRight();
-        this.swimDown();
-        this.turnAround = false;
-      } else if (this.world.keyboard.LEFTUP && this.y > 0 - 25 && this.x > 0) {
-        this.swimLeft();
-        this.swimUp();
-        this.turnAround = true;
-      } else if (this.world.keyboard.LEFTDOWN && this.y < 480 - this.height && this.x > 0) {
-        this.swimLeft();
-        this.swimDown();
-        this.turnAround = true;
-      } else if (this.world.keyboard.RIGHT && this.x < 720 * 8 - this.width) {
-        this.swimRight();
-        this.turnAround = false;
-      } else if (this.world.keyboard.LEFT && this.x > 0 - 25) {
-        this.swimLeft();
-        this.turnAround = true;
-      } else if (this.world.keyboard.UP && this.y > 0 - 25) {
-        this.swimUp();
-      } else if (this.world.keyboard.DOWN && this.y < 480 - this.height) {
-        this.swimDown();
+      if (this.isAlive()) {
+        this.move();
       }
     }, 1000 / 60);
+
 
 
     setInterval(() => {
       this.swim_sound.pause();
       if (this.life <= 0) {
         this.animateDeath();
-      } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
+      } else if (this.arrowPressed()) {
         this.animateSwim();
       } else if (this.idleCounter > 1) {
         this.animateDeepIdle();
@@ -166,6 +141,49 @@ class Character extends MoveableObject {
         this.animateIdle();
       }
     }, 100);
+  }
+
+
+  move() {
+    this.world.camera_x = -this.x + 25;
+    if (this.world.keyboard.RIGHTUP && this.y > 0 - 25 && this.x < this.world.canvas.width * 8 - this.width) {
+      this.swimRight();
+      this.swimUp();
+      this.turnAround = false;
+    } else if (this.world.keyboard.RIGHTDOWN && this.y < this.world.canvas.height - this.height && this.x < this.world.canvas.width * 8 - this.width) {
+      this.swimRight();
+      this.swimDown();
+      this.turnAround = false;
+    } else if (this.world.keyboard.LEFTUP && this.y > 0 - 25 && this.x > 0) {
+      this.swimLeft();
+      this.swimUp();
+      this.turnAround = true;
+    } else if (this.world.keyboard.LEFTDOWN && this.y < this.world.canvas.height - this.height && this.x > 0) {
+      this.swimLeft();
+      this.swimDown();
+      this.turnAround = true;
+    } else if (this.world.keyboard.RIGHT && this.x < this.world.canvas.width * 8 - this.width) {
+      this.swimRight();
+      this.turnAround = false;
+    } else if (this.world.keyboard.LEFT && this.x > 0 - 25) {
+      this.swimLeft();
+      this.turnAround = true;
+    } else if (this.world.keyboard.UP && this.y > 0 - 25) {
+      this.swimUp();
+    } else if (this.world.keyboard.DOWN && this.y < this.world.canvas.height - this.height) {
+      this.swimDown();
+    }
+  }
+
+
+  isAlive() {
+    return this.life > 0;
+  }
+
+
+  arrowPressed() {
+    return this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN ||
+      this.world.keyboard.LEFTUP || this.world.keyboard.LEFTDOWN || this.world.keyboard.RIGHTUP || this.world.keyboard.RIGHTDOWN;
   }
 
 
@@ -203,9 +221,10 @@ class Character extends MoveableObject {
 
 
   animateDeath() {
+    this.currentImage = !this.currentMoveSet.includes(this.moveSetDeathPoison[0]) ? 0 : this.currentImage;
     this.setAnimation(this.moveSetDeathPoison);
     if (this.currentImage === this.moveSetDeathPoison.length) {
-      this.currentImage = this.moveSetDeathPoison.length - 2;
+      this.currentImage = this.moveSetDeathPoison.length - 1;
     }
   }
 

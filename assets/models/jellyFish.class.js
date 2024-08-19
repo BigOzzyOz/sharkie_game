@@ -2,6 +2,7 @@ class Jellyfish extends MoveableObject {
   height = 50;
   width = 50;
   variant;
+  groundHeight;
 
   moveSetSwimLila = [
     'assets/img/2.Enemy/2 Jelly fish/Regular damage/Lila 1.png',
@@ -93,14 +94,15 @@ class Jellyfish extends MoveableObject {
 
 
   sinkingEnd() {
+    this.groundHeight = this.world ? this.world.canvas.height - this.height - (this.world.canvas.height * 0.1) : 0;
     this.y += 2;
     this.img = this.img == this.imageCache[this.currentMoveSet[2]] ? this.imageCache[this.currentMoveSet[3]] : this.imageCache[this.currentMoveSet[2]];
-    if (this.y >= 380) {
+    if (this.y >= this.groundHeight) {
       this.stopGravity();
       this.img = this.imageCache[this.currentMoveSet[0]];
       this.direction = 'swimming';
       this.swimHeight = this.y - (Math.floor(Math.random() * 35) + 40);
-    } else if (this.y >= 370) {
+    } else if (this.y >= this.groundHeight - (this.world.canvas.height * 0.02)) {
       this.img = this.imageCache[this.currentMoveSet[3]];
     }
   }
