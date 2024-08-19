@@ -53,12 +53,63 @@ class Character extends MoveableObject {
     'assets/img/1.Sharkie/3.Swim/6.png',
   ];
 
+  moveSetHurtPoison = [
+    'assets/img/1.Sharkie/5.Hurt/1.Poisoned/1.png',
+    'assets/img/1.Sharkie/5.Hurt/1.Poisoned/2.png',
+    'assets/img/1.Sharkie/5.Hurt/1.Poisoned/3.png',
+    'assets/img/1.Sharkie/5.Hurt/1.Poisoned/4.png',
+  ];
+
+  moveSetHurtSchock = [
+    'assets/img/1.Sharkie/5.Hurt/2.Electric shock/1.png',
+    'assets/img/1.Sharkie/5.Hurt/2.Electric shock/2.png',
+    'assets/img/1.Sharkie/5.Hurt/2.Electric shock/3.png'
+  ];
+
+  moveSetDeathPoison = [
+    'assets/img/1.Sharkie/6.dead/1.Poisoned/1.png',
+    'assets/img/1.Sharkie/6.dead/1.Poisoned/2.png',
+    'assets/img/1.Sharkie/6.dead/1.Poisoned/3.png',
+    'assets/img/1.Sharkie/6.dead/1.Poisoned/4.png',
+    'assets/img/1.Sharkie/6.dead/1.Poisoned/5.png',
+    'assets/img/1.Sharkie/6.dead/1.Poisoned/6.png',
+    'assets/img/1.Sharkie/6.dead/1.Poisoned/7.png',
+    'assets/img/1.Sharkie/6.dead/1.Poisoned/8.png',
+    'assets/img/1.Sharkie/6.dead/1.Poisoned/9.png',
+    'assets/img/1.Sharkie/6.dead/1.Poisoned/10.png',
+    'assets/img/1.Sharkie/6.dead/1.Poisoned/11.png',
+    'assets/img/1.Sharkie/6.dead/1.Poisoned/12.png'
+  ];
+
+  moveSetDeathShock = [
+    'assets/img/1.Sharkie/6.dead/2.Electro_shock/1.png',
+    'assets/img/1.Sharkie/6.dead/2.Electro_shock/2.png',
+    'assets/img/1.Sharkie/6.dead/2.Electro_shock/3.png',
+    'assets/img/1.Sharkie/6.dead/2.Electro_shock/4.png',
+    'assets/img/1.Sharkie/6.dead/2.Electro_shock/5.png',
+    'assets/img/1.Sharkie/6.dead/2.Electro_shock/6.png',
+    'assets/img/1.Sharkie/6.dead/2.Electro_shock/7.png',
+    'assets/img/1.Sharkie/6.dead/2.Electro_shock/8.png',
+    'assets/img/1.Sharkie/6.dead/2.Electro_shock/9.png',
+    'assets/img/1.Sharkie/6.dead/2.Electro_shock/10.png'
+  ];
+
   constructor() {
     super();
+    this.offset = {
+      right: 45,
+      left: 45,
+      top: 100,
+      bottom: 45
+    };
     this.currentMoveSet = this.moveSetSwim;
     this.loadImages(this.moveSetSwim);
     this.loadImages(this.moveSetDeepIdle);
     this.loadImages(this.moveSetIdle);
+    this.loadImages(this.moveSetHurtPoison);
+    this.loadImages(this.moveSetHurtSchock);
+    this.loadImages(this.moveSetDeathPoison);
+    this.loadImages(this.moveSetDeathShock);
     this.img = this.imageCache[this.currentMoveSet[0]];
     this.swim_sound.muted = true;
     this.swim_sound.loop = true;
@@ -74,55 +125,45 @@ class Character extends MoveableObject {
     setInterval(() => {
       this.world.camera_x = -this.x + 25;
       if (this.world.keyboard.RIGHTUP && this.y > 0 - 25 && this.x < 720 * 8 - this.width) {
-        this.y -= this.speed;
-        this.x += this.speed;
+        this.swimRight();
+        this.swimUp();
         this.turnAround = false;
       } else if (this.world.keyboard.RIGHTDOWN && this.y < 480 - this.height && this.x < 720 * 8 - this.width) {
-        this.x += this.speed;
-        this.y += this.speed;
+        this.swimRight();
+        this.swimDown();
         this.turnAround = false;
       } else if (this.world.keyboard.LEFTUP && this.y > 0 - 25 && this.x > 0) {
-        this.y -= this.speed;
-        this.x -= this.speed;
+        this.swimLeft();
+        this.swimUp();
         this.turnAround = true;
       } else if (this.world.keyboard.LEFTDOWN && this.y < 480 - this.height && this.x > 0) {
-        this.x -= this.speed;
-        this.y += this.speed;
+        this.swimLeft();
+        this.swimDown();
         this.turnAround = true;
       } else if (this.world.keyboard.RIGHT && this.x < 720 * 8 - this.width) {
-        this.x += this.speed;
+        this.swimRight();
         this.turnAround = false;
       } else if (this.world.keyboard.LEFT && this.x > 0 - 25) {
-        this.x -= this.speed;
+        this.swimLeft();
         this.turnAround = true;
       } else if (this.world.keyboard.UP && this.y > 0 - 25) {
-        this.y -= this.speed;
+        this.swimUp();
       } else if (this.world.keyboard.DOWN && this.y < 480 - this.height) {
-        this.y += this.speed;
+        this.swimDown();
       }
     }, 1000 / 60);
 
 
     setInterval(() => {
       this.swim_sound.pause();
-      if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
-        this.currentMoveSet = this.moveSetSwim;
-        this.setAnimation(this.moveSetSwim);
-        this.stopGravity();
-        this.playSwim();
-        this.idleCounter = 0;
+      if (this.life <= 0) {
+        this.animateDeath();
+      } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
+        this.animateSwim();
       } else if (this.idleCounter > 1) {
-        this.currentImage = this.currentMoveSet.includes(this.moveSetIdle[0]) ? 0 : this.currentImage;
-        this.currentMoveSet = this.moveSetDeepIdle;
-        this.setAnimation(this.moveSetDeepIdle);
-        if (this.currentImage === this.moveSetDeepIdle.length) {
-          this.currentImage = 10;
-        }
-        !this.applyGravity ? this.startGravity() : '';
+        this.animateDeepIdle();
       } else {
-        this.currentMoveSet = this.moveSetIdle;
-        this.idleCounter = this.idleCounter + 0.008;
-        this.setAnimation(this.moveSetIdle);
+        this.animateIdle();
       }
     }, 100);
   }
@@ -135,6 +176,39 @@ class Character extends MoveableObject {
       });
     }
   }
+
+
+  animateSwim() {
+    this.setAnimation(this.moveSetSwim);
+    this.stopGravity();
+    this.playSwim();
+    this.idleCounter = 0;
+  }
+
+
+  animateDeepIdle() {
+    this.currentImage = this.currentMoveSet.includes(this.moveSetIdle[0]) ? 0 : this.currentImage;
+    this.setAnimation(this.moveSetDeepIdle);
+    if (this.currentImage === this.moveSetDeepIdle.length) {
+      this.currentImage = 10;
+    }
+    !this.applyGravity ? this.startGravity() : '';
+  }
+
+
+  animateIdle() {
+    this.idleCounter = this.idleCounter + 0.008;
+    this.setAnimation(this.moveSetIdle);
+  }
+
+
+  animateDeath() {
+    this.setAnimation(this.moveSetDeathPoison);
+    if (this.currentImage === this.moveSetDeathPoison.length) {
+      this.currentImage = this.moveSetDeathPoison.length - 2;
+    }
+  }
+
 
   unmuteSound() {
     this.swim_sound.muted = false;

@@ -31,6 +31,12 @@ class Pufferfish extends MoveableObject {
   variant;
   constructor() {
     super();
+    this.offset = {
+      right: 5,
+      left: 5,
+      top: 10,
+      bottom: 5
+    };
     this.variant = Math.floor(Math.random() * 3) + 1;
     if (this.variant == 1) {
       this.currentMoveSet = this.moveSetSwim1;

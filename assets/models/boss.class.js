@@ -21,6 +21,12 @@ class Boss extends MoveableObject {
 
   constructor() {
     super();
+    this.offset = {
+      right: 40,
+      left: 20,
+      top: 140,
+      bottom: 60
+    };
     this.loadImages(this.moveSetFloating);
     this.animate();
   }

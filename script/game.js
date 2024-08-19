@@ -8,15 +8,15 @@ function init() {
 }
 
 window.addEventListener('keydown', (e) => {
-  console.log(e);
+  // console.log(e);
   keyPressed[e.key] = true;
-  console.log(keyPressed);
+  // console.log(keyPressed);
   if ((e.key === 'ArrowLeft' && keyPressed['ArrowRight']) || (e.key === 'ArrowRight' && keyPressed['ArrowLeft']) || (e.key === 'ArrowUp' && keyPressed['ArrowDown']) || (e.key === 'ArrowDown' && keyPressed['ArrowUp'])) {
     return;
   };
   keyboard.RIGHTUP = (keyPressed['ArrowRight'] && e.key === 'ArrowUp') || (keyPressed['ArrowUp'] && e.key === 'ArrowRight') ? true : false;
   keyboard.RIGHTDOWN = (keyPressed['ArrowRight'] && e.key === 'ArrowDown') || (keyPressed['ArrowDown'] && e.key === 'ArrowRight') ? true : false;
-  keyboard.LEFTUP = (keyPressed['ArrowLeft'] && e.key === 'ArrowUp') || (keyPressed['ArrowDown'] && e.key == 'ArrowLeft') ? true : false;
+  keyboard.LEFTUP = (keyPressed['ArrowLeft'] && e.key === 'ArrowUp') || (keyPressed['ArrowUp'] && e.key == 'ArrowLeft') ? true : false;
   keyboard.LEFTDOWN = (keyPressed['ArrowLeft'] && e.key === 'ArrowDown') || (keyPressed['ArrowDown'] && e.key == 'ArrowLeft') ? true : false;
   keyboard.SPACE = e.key === ' ' ? true : false;
   keyboard.LEFT = e.key === 'ArrowLeft' ? keyPressed.length > 1 ? false : true : false;
@@ -27,9 +27,9 @@ window.addEventListener('keydown', (e) => {
 
 
 window.addEventListener('keyup', (e) => {
-  console.log(e);
+  // console.log(e);
   delete keyPressed[e.key];
-  console.log(keyPressed);
+  // console.log(keyPressed);
   keyboard.RIGHTUP = (keyPressed['ArrowRight'] && e.key === 'ArrowUp') || (keyPressed['ArrowUp'] && e.key === 'ArrowRight') ? false : false;
   keyboard.RIGHTDOWN = (keyPressed['ArrowRight'] && e.key === 'ArrowDown') || (keyPressed['ArrowDown'] && e.key === 'ArrowRight') ? false : false;
   keyboard.LEFTUP = (keyPressed['ArrowLeft'] && e.key === 'ArrowUp') || (keyPressed['ArrowDown'] && e.key === 'ArrowLeft') ? false : false;

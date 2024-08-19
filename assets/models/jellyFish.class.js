@@ -33,6 +33,12 @@ class Jellyfish extends MoveableObject {
 
   constructor() {
     super();
+    this.offset = {
+      right: 5,
+      left: 5,
+      top: 5,
+      bottom: 5
+    };
     this.variant = Math.floor(Math.random() * 4) + 1;
     if (this.variant == 1) {
       this.currentMoveSet = this.moveSetSwimLila;

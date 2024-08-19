@@ -13,6 +13,7 @@ class World {
     this.keyboard = keyboard;
     this.setWorld();
     this.draw();
+    this.checkCollision();
   }
 
 
@@ -29,6 +30,17 @@ class World {
         };
       }
     };
+  }
+
+
+  checkCollision() {
+    setInterval(() => {
+      this.level.enemies.forEach((enemy) => {
+        if (this.character.isColliding(enemy)) {
+          this.character.life -= 5;
+        }
+      });
+    }, 100);
   }
 
 
@@ -53,15 +65,12 @@ class World {
 
   addToMap(otd) {
     if (otd.turnAround) {
-      this.ctx.save();
-      this.ctx.scale(-1, 1);
-      this.ctx.translate(-otd.width, 0);
-      otd.x = otd.x * -1;
+      otd.imageMirror(this.ctx);
     }
-    this.ctx.drawImage(otd.img, otd.x, otd.y, otd.width, otd.height);
+    otd.imageDraw(this.ctx);
+    otd.frameDraw(this.ctx);
     if (otd.turnAround) {
-      otd.x = otd.x * -1;
-      this.ctx.restore();
+      otd.imageMirrorBack(this.ctx);
     }
   };
 
