@@ -93,6 +93,39 @@ class Character extends MoveableObject {
     'assets/img/1.Sharkie/6.dead/2.Electro_shock/10.png'
   ];
 
+  moveSetFinSlap = [
+    'assets/img/1.Sharkie/4.Attack/Fin slap/1.png',
+    'assets/img/1.Sharkie/4.Attack/Fin slap/2.png',
+    'assets/img/1.Sharkie/4.Attack/Fin slap/3.png',
+    'assets/img/1.Sharkie/4.Attack/Fin slap/4.png',
+    'assets/img/1.Sharkie/4.Attack/Fin slap/5.png',
+    'assets/img/1.Sharkie/4.Attack/Fin slap/6.png',
+    'assets/img/1.Sharkie/4.Attack/Fin slap/7.png',
+    'assets/img/1.Sharkie/4.Attack/Fin slap/8.png'
+  ];
+
+  moveSetBubbleNormal = [
+    'assets/img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/1.png',
+    'assets/img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/2.png',
+    'assets/img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/3.png',
+    'assets/img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/4.png',
+    'assets/img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/5.png',
+    'assets/img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/6.png',
+    'assets/img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/7.png',
+    'assets/img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/8.png',
+  ];
+
+  moveSetBubblePoison = [
+    'assets/img/1.Sharkie/4.Attack/Bubble trap/For Whale/1.png',
+    'assets/img/1.Sharkie/4.Attack/Bubble trap/For Whale/2.png',
+    'assets/img/1.Sharkie/4.Attack/Bubble trap/For Whale/3.png',
+    'assets/img/1.Sharkie/4.Attack/Bubble trap/For Whale/4.png',
+    'assets/img/1.Sharkie/4.Attack/Bubble trap/For Whale/5.png',
+    'assets/img/1.Sharkie/4.Attack/Bubble trap/For Whale/6.png',
+    'assets/img/1.Sharkie/4.Attack/Bubble trap/For Whale/7.png',
+    'assets/img/1.Sharkie/4.Attack/Bubble trap/For Whale/8.png'
+  ];
+
   constructor() {
     super();
     this.offset = {
@@ -109,6 +142,9 @@ class Character extends MoveableObject {
     this.loadImages(this.moveSetHurtSchock);
     this.loadImages(this.moveSetDeathPoison);
     this.loadImages(this.moveSetDeathShock);
+    this.loadImages(this.moveSetFinSlap);
+    this.loadImages(this.moveSetBubbleNormal);
+    this.loadImages(this.moveSetBubblePoison);
     this.img = this.imageCache[this.currentMoveSet[0]];
     this.swim_sound.muted = true;
     this.swim_sound.loop = true;
@@ -131,8 +167,10 @@ class Character extends MoveableObject {
 
     setInterval(() => {
       this.swim_sound.pause();
-      if (this.life <= 0) {
+      if (!this.isAlive()) {
         this.animateDeath();
+      } else if (this.isHurt()) {
+        this.animateHit();
       } else if (this.arrowPressed()) {
         this.animateSwim();
       } else if (this.idleCounter > 1) {
@@ -146,6 +184,7 @@ class Character extends MoveableObject {
 
   move() {
     this.world.camera_x = -this.x + 25;
+    this.world.statusBar.x = -this.world.camera_x + 15;
     if (this.world.keyboard.RIGHTUP && this.y > 0 - 25 && this.x < this.world.canvas.width * 8 - this.width) {
       this.swimRight();
       this.swimUp();
@@ -179,6 +218,23 @@ class Character extends MoveableObject {
   isAlive() {
     return this.life > 0;
   }
+
+
+  isHit(enemy) {
+    if (this.life < 0) {
+      this.life = 0;
+    } else if (!this.isHurt()) {
+      this.lastHit = new Date().getTime();
+      this.life -= 20;
+
+    }
+  }
+
+  isHurt() {
+    let timePassed = new Date().getTime() - this.lastHit;
+    return timePassed < 750;
+  }
+
 
 
   arrowPressed() {
@@ -217,6 +273,11 @@ class Character extends MoveableObject {
   animateIdle() {
     this.idleCounter = this.idleCounter + 0.008;
     this.setAnimation(this.moveSetIdle);
+  }
+
+
+  animateHit() {
+    this.setAnimation(this.moveSetHurtPoison);
   }
 
 
