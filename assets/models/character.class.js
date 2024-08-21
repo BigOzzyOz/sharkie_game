@@ -3,6 +3,7 @@ class Character extends MoveableObject {
   width = 200;
   idleCounter = 0;
   swim_sound = new Audio('assets/audio/swim.mp3');
+  bossInsight = false;
 
 
   moveSetIdle = [
@@ -158,7 +159,7 @@ class Character extends MoveableObject {
 
   animate() {
     setInterval(() => {
-      if (this.isAlive()) {
+      if (this.isAlive() && !this.attackPressed()) {
         this.move();
       }
     }, 1000 / 60);
@@ -171,6 +172,8 @@ class Character extends MoveableObject {
         this.animateDeath();
       } else if (this.isHurt()) {
         this.animateHit();
+      } else if (this.attackPressed()) {
+        this.world.keyboard.SPACE ? this.animateSlap() : this.animateBubbleThrow();
       } else if (this.arrowPressed()) {
         this.animateSwim();
       } else if (this.idleCounter > 1) {
@@ -244,6 +247,10 @@ class Character extends MoveableObject {
       this.world.keyboard.LEFTUP || this.world.keyboard.LEFTDOWN || this.world.keyboard.RIGHTUP || this.world.keyboard.RIGHTDOWN;
   }
 
+  attackPressed() {
+    return this.world.keyboard.SPACE || this.world.keyboard.D;
+  }
+
 
   playSwim() {
     if (this.swim_sound.paused) {
@@ -275,6 +282,28 @@ class Character extends MoveableObject {
   animateIdle() {
     this.idleCounter = this.idleCounter + 0.008;
     this.setAnimation(this.moveSetIdle);
+  }
+
+  animateSlap() {
+    this.animateAttack(this.moveSetFinSlap);
+  }
+
+  animateBubbleThrow() {
+    if (!this.bossInsight) {
+      this.animateAttack(this.moveSetBubbleNormal);
+    } else {
+      this.animateAttack(this.moveSetBubblePoison);
+    }
+  }
+
+  animateAttack(set) {
+    this.currentImage = !this.currentMoveSet.includes(set[0]) ? 0 : this.currentImage;
+    this.setAnimation(set);
+    if (this.currentImage === set.length) {
+      this.currentImage = 0;
+      this.world.keyboard.D = false;
+      this.world.keyboard.SPACE = false;
+    }
   }
 
 

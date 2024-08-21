@@ -8,7 +8,7 @@ class Keyboard {
   RIGHTDOWN = false;
   LEFTUP = false;
   LEFTDOWN = false;
-
+  D = false;
 
 
 
