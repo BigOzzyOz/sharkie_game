@@ -184,7 +184,9 @@ class Character extends MoveableObject {
 
   move() {
     this.world.camera_x = -this.x + 25;
-    this.world.statusBar.x = -this.world.camera_x + 15;
+    this.world.statusBarLife.x = -this.world.camera_x + 15;
+    this.world.statusBarPoison.x = -this.world.camera_x + 200;
+    this.world.statusBarCoin.x = -this.world.camera_x + 560;
     if (this.world.keyboard.RIGHTUP && this.y > 0 - 25 && this.x < this.world.canvas.width * 8 - this.width) {
       this.swimRight();
       this.swimUp();

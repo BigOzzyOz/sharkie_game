@@ -77,4 +77,6 @@ class MoveableObject extends DrawableObjects {
       this.y + this.offset.top <= obj.y + obj.height - obj.offset.bottom;
   }
 
+
+
 }

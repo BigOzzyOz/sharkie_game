@@ -40,3 +40,7 @@ window.addEventListener('keyup', (e) => {
   keyboard.UP = e.key === 'ArrowUp' ? false : keyPressed['ArrowUp'] ? true : false;
   keyboard.DOWN = e.key === 'ArrowDown' ? false : keyPressed['ArrowDown'] ? true : false;
 });
+
+function clearAllIntervals() {
+  for (let i = 1; i < 9999; i++) window.clearInterval(i);
+};

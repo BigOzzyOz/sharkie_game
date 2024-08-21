@@ -1,6 +1,7 @@
 @font-face {
   font-family: 'luckyGuy';
   src: url('../assets/fonts/LuckiestGuy-Regular.ttf') format('truetype');
+  color: #a19600;
 }
 
 body {

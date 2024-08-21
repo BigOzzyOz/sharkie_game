@@ -1,5 +1,5 @@
 class Statusbar extends DrawableObjects {
-  images = [
+  imagesLife = [
     'assets/img/4. Marcadores/green/Life/100_  copia 2.png',
     'assets/img/4. Marcadores/green/Life/80_  copia 3.png',
     'assets/img/4. Marcadores/Purple/60_ .png',
@@ -7,22 +7,34 @@ class Statusbar extends DrawableObjects {
     'assets/img/4. Marcadores/orange/20_ copia 2.png',
     'assets/img/4. Marcadores/orange/0_  copia.png'
   ];
+  imagePoison = ['assets/img/4. Marcadores/green/100_ copia 5.png'];
+  imageCoin = ['assets/img/4. Marcadores/green/100_ copia 6.png'];
   currentLife;
+  poisonCounter;
+  coinCounter;
 
-  constructor() {
+  constructor(x, y, width, bar) {
     super();
-    this.x = 15;
-    this.y = 0;
+    this.x = x;
+    this.y = y;
     this.height = 60;
-    this.width = 200;
-    this.currentMoveSet = this.images;
-    this.loadImages(this.images);
+    this.width = width;
+    if (bar === 0) {
+      this.currentMoveSet = this.imagesLife;
+    } else if (bar === 1) {
+      this.currentMoveSet = this.imagePoison;
+      this.poisonCounter = 0;
+    } else if (bar === 2) {
+      this.currentMoveSet = this.imageCoin;
+      this.coinCounter = 0;
+    }
+    this.loadImages(this.currentMoveSet);
   }
 
 
   updateLife(life) {
     this.currentLife = life;
-    let path = this.images[this.imgIndex()];
+    let path = this.imagesLife[this.imgIndex()];
     this.img = this.imageCache[path];
   }
 

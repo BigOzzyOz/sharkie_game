@@ -6,7 +6,10 @@ class World {
   ctx;
   keyboard;
   camera_x = 0;
-  statusBar = new Statusbar();
+  statusBarLife = new Statusbar(15, 0, 200, 0);
+  statusBarPoison = new Statusbar(200, 0, 60, 1);
+  statusBarCoin = new Statusbar(560, 10, 60, 2);
+
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -14,7 +17,7 @@ class World {
     this.keyboard = keyboard;
     this.setWorld();
     this.draw();
-    this.checkCollision();
+    this.updateGame();
   }
 
 
@@ -37,15 +40,20 @@ class World {
   }
 
 
-  checkCollision() {
+  updateGame() {
     setInterval(() => {
-      this.level.enemies.forEach((enemy) => {
-        if (this.character.isColliding(enemy)) {
-          this.character.isHit(enemy);
-          this.statusBar.updateLife(this.character.life);
-        }
-      });
+      this.checkCollision();
+      this.statusBarLife.updateLife(this.character.life);
     }, 100);
+  }
+
+
+  checkCollision() {
+    this.level.enemies.forEach((enemy) => {
+      if (this.character.isColliding(enemy)) {
+        this.character.isHit(enemy);
+      }
+    });
   }
 
 
@@ -57,7 +65,9 @@ class World {
     this.addObjectToMap(this.backgroundImage);
     this.addObjectToMap(this.level.enemies);
     this.addToMap(this.character);
-    this.addToMap(this.statusBar);
+    this.addToMap(this.statusBarLife);
+    this.addToMap(this.statusBarPoison);
+    this.addToMap(this.statusBarCoin);
 
     this.ctx.translate(-this.camera_x, 0);
 
@@ -75,6 +85,7 @@ class World {
     }
     otd.imageDraw(this.ctx);
     otd.frameDraw(this.ctx);
+    otd.textDraw(this.ctx);
     if (otd.turnAround) {
       otd.imageMirrorBack(this.ctx);
     }
