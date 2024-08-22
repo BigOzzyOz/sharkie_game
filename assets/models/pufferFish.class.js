@@ -28,7 +28,7 @@ class Pufferfish extends MoveableObject {
   ];
 
 
-  variant;
+  variantPufferfish;
   constructor() {
     super();
     this.offset = {
@@ -37,15 +37,15 @@ class Pufferfish extends MoveableObject {
       top: 10,
       bottom: 5
     };
-    this.variant = Math.floor(Math.random() * 3) + 1;
-    if (this.variant == 1) {
+    this.variantPufferfish = Math.floor(Math.random() * 3) + 1;
+    if (this.variantPufferfish == 1) {
       this.currentMoveSet = this.moveSetSwim1;
     }
-    if (this.variant == 2) {
+    if (this.variantPufferfish == 2) {
       this.currentMoveSet = this.moveSetSwim2;
 
     }
-    if (this.variant == 3) {
+    if (this.variantPufferfish == 3) {
       this.currentMoveSet = this.moveSetSwim3;
     }
     this.loadImages(this.currentMoveSet);

@@ -1,7 +1,7 @@
 class Jellyfish extends MoveableObject {
   height = 50;
   width = 50;
-  variant;
+  variantJellyfish;
   groundHeight;
 
   moveSetSwimLila = [
@@ -40,17 +40,17 @@ class Jellyfish extends MoveableObject {
       top: 5,
       bottom: 5
     };
-    this.variant = Math.floor(Math.random() * 4) + 1;
-    if (this.variant == 1) {
+    this.variantJellyfish = Math.floor(Math.random() * 4) + 1;
+    if (this.variantJellyfish == 1) {
       this.currentMoveSet = this.moveSetSwimLila;
     }
-    if (this.variant == 2) {
+    if (this.variantJellyfish == 2) {
       this.currentMoveSet = this.moveSetSwimYellow;
     }
-    if (this.variant == 3) {
+    if (this.variantJellyfish == 3) {
       this.currentMoveSet = this.moveSetSwimGreen;
     }
-    if (this.variant == 4) {
+    if (this.variantJellyfish == 4) {
       this.currentMoveSet = this.moveSetSwimPink;
     }
     this.loadImages(this.currentMoveSet);

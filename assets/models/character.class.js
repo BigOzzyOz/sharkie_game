@@ -3,6 +3,7 @@ class Character extends MoveableObject {
   width = 200;
   idleCounter = 0;
   swim_sound = new Audio('assets/audio/swim.mp3');
+  lastEnemy;
   bossInsight = false;
 
 
@@ -228,10 +229,10 @@ class Character extends MoveableObject {
   isHit(enemy) {
     if (this.life < 0) {
       this.life = 0;
-    } else if (!this.isHurt()) {
+    } else if (!this.isHurt() && this.isAlive()) {
+      this.lastEnemy = enemy;
       this.lastHit = new Date().getTime();
       this.life -= 20;
-
     }
   }
 
@@ -308,16 +309,35 @@ class Character extends MoveableObject {
 
 
   animateHit() {
-    this.setAnimation(this.moveSetHurtPoison);
+    if (this.checkLastEnemy()) {
+      this.setAnimation(this.moveSetHurtSchock);
+    } else {
+      this.setAnimation(this.moveSetHurtPoison);
+    }
   }
 
 
   animateDeath() {
-    this.currentImage = !this.currentMoveSet.includes(this.moveSetDeathPoison[0]) ? 0 : this.currentImage;
-    this.setAnimation(this.moveSetDeathPoison);
-    if (this.currentImage === this.moveSetDeathPoison.length) {
-      this.currentImage = this.moveSetDeathPoison.length - 1;
+    if (this.checkLastEnemy()) {
+      this.animateDeathAnimation(this.moveSetDeathShock);
+      this.y += this.y + this.height < this.world.canvas.height ? 0.5 : 0;
+    } else {
+      this.animateDeathAnimation(this.moveSetDeathPoison);
+      this.y -= this.y > 0 ? 0.5 : 0;
     }
+  }
+
+  animateDeathAnimation(set) {
+    this.currentImage = !this.currentMoveSet.includes(set[0]) ? 0 : this.currentImage;
+    this.setAnimation(set);
+    if (this.currentImage === set.length) {
+      this.currentImage = set.length - 1;
+    }
+  }
+
+
+  checkLastEnemy() {
+    return this.lastEnemy.variantJellyfish === 3 || this.lastEnemy.variantJellyfish === 4;
   }
 
 
