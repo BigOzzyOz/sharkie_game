@@ -49,10 +49,12 @@ class Character extends MoveableObject {
     this.loadImages(this.moveSetBubblePoison);
   }
 
+
   animate() {
     setInterval(() => this.isAlive() && !this.attackPressed() ? this.move() : '', 1000 / 60);
     setInterval(() => this.playAnimation(), 100);
   }
+
 
   playAnimation() {
     this.swim_sound.pause();
