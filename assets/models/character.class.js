@@ -255,6 +255,10 @@ class Character extends MoveableObject {
     this.setAnimation(set);
     if (this.currentImage === set.length) {
       this.currentImage = 0;
+      if (this.world.keyboard.D) {
+        let bubble = new Bubble(this.x, this.y);
+        this.world.bubbles.push(bubble);
+      }
       this.world.keyboard.D = false;
       this.world.keyboard.SPACE = false;
     }

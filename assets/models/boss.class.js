@@ -28,14 +28,9 @@ class Boss extends MoveableObject {
       bottom: 60
     };
     this.loadImages(this.moveSetFloating);
-    this.animate();
-  }
-
-  animate() {
-    setInterval(() => {
+    this.animateId = setInterval(() => {
       this.setAnimation(this.moveSetFloating);
     }, 100);
-
   }
 
 }

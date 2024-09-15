@@ -11,20 +11,24 @@ class MoveableObject extends DrawableObjects {
   acceleration = 0.005;
   lastHit;
   applyGravity;
+  animateId;
+
 
   constructor() {
     super();
   }
 
   startGravity() {
-    this.applyGravity = setInterval(() => {
-      if (this.isAboveGround()) {
-        this.y += this.speedDown;
-        this.speedDown += this.acceleration;
-      } else {
-        this.stopGravity();
-      }
-    }, 1000 / 25);
+    if (this.isAboveGround()) {
+      this.applyGravity = setInterval(() => {
+        if (this.isAboveGround()) {
+          this.y += this.speedDown;
+          this.speedDown += this.acceleration;
+        } else {
+          this.stopGravity();
+        }
+      }, 1000 / 25);
+    }
   }
 
 
@@ -78,5 +82,7 @@ class MoveableObject extends DrawableObjects {
   }
 
 
-
+  destroy(arr, obj) {
+    arr.splice(arr.findIndex(o => o.y === obj.y), 1);
+  }
 }

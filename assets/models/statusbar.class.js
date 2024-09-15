@@ -40,19 +40,12 @@ class Statusbar extends DrawableObjects {
 
 
   imgIndex() {
-    if (this.currentLife === 100) {
-      return 0;
-    } else if (this.currentLife >= 80) {
-      return 1;
-    } else if (this.currentLife >= 60) {
-      return 2;
-    } else if (this.currentLife >= 40) {
-      return 3;
-    } else if (this.currentLife >= 20) {
-      return 4;
-    } else {
-      return 5;
-    }
+    if (this.currentLife === 100) return 0;
+    else if (this.currentLife >= 80) return 1;
+    else if (this.currentLife >= 60) return 2;
+    else if (this.currentLife >= 40) return 3;
+    else if (this.currentLife >= 20) return 4;
+    else return 5;
   }
 
 }

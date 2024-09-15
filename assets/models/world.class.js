@@ -1,6 +1,7 @@
 class World {
   level = level1;
   character = new Character();
+  bubbles = [];
   backgroundImage = [];
   canvas;
   ctx;
@@ -53,6 +54,12 @@ class World {
       if (this.character.isColliding(enemy)) {
         this.character.isHit(enemy);
       }
+      this.bubbles.forEach((bubble) => {
+        if (bubble.isColliding(enemy)) {
+          console.log("hit", bubble, "enemy", enemy);
+          bubble.isHit(enemy);
+        }
+      });
     });
   }
 
@@ -65,6 +72,7 @@ class World {
     this.addObjectToMap(this.backgroundImage);
     this.addObjectToMap(this.level.enemies);
     this.addToMap(this.character);
+    this.addObjectToMap(this.bubbles);
     this.addToMap(this.statusBarLife);
     this.addToMap(this.statusBarPoison);
     this.addToMap(this.statusBarCoin);
@@ -80,22 +88,16 @@ class World {
 
 
   addToMap(otd) {
-    if (otd.turnAround) {
-      otd.imageMirror(this.ctx);
-    }
+    if (otd.turnAround) otd.imageMirror(this.ctx);
     otd.imageDraw(this.ctx);
     otd.frameDraw(this.ctx);
     otd.textDraw(this.ctx);
-    if (otd.turnAround) {
-      otd.imageMirrorBack(this.ctx);
-    }
+    if (otd.turnAround) otd.imageMirrorBack(this.ctx);
   };
 
 
   addObjectToMap(object) {
-    object.forEach(o => {
-      this.addToMap(o);
-    });
+    object.forEach(o => this.addToMap(o));
   };
 
 

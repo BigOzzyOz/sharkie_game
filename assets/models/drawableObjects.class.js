@@ -71,11 +71,8 @@ class DrawableObjects {
       ctx.shadowOffsetX = 3;
       ctx.shadowOffsetY = 3;
 
-      if (this.poisonCounter >= 0) {
-        ctx.fillText('= ' + this.poisonCounter + '/5', this.x + 50, this.y + 50);
-      } else if (this.coinCounter >= 0) {
-        ctx.fillText('= ' + ('000' + String(this.coinCounter)).substring(String(this.coinCounter).length), this.x + 55, this.y + 40);
-      }
+      if (this.poisonCounter >= 0) ctx.fillText('= ' + this.poisonCounter + '/5', this.x + 50, this.y + 50);
+      else if (this.coinCounter >= 0) ctx.fillText('= ' + ('000' + String(this.coinCounter)).substring(String(this.coinCounter).length), this.x + 55, this.y + 40);
       ctx.shadowColor = 'transparent';
     }
   }

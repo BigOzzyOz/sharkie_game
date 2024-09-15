@@ -3,36 +3,18 @@ class Jellyfish extends MoveableObject {
   width = 50;
   variantJellyfish;
   groundHeight;
+  currentDeadSet;
 
-  moveSetSwimLila = [
-    'assets/img/2.Enemy/2 Jelly fish/Regular damage/Lila 1.png',
-    'assets/img/2.Enemy/2 Jelly fish/Regular damage/Lila 2.png',
-    'assets/img/2.Enemy/2 Jelly fish/Regular damage/Lila 3.png',
-    'assets/img/2.Enemy/2 Jelly fish/Regular damage/Lila 4.png'
-  ];
+  moveSetSwimLila = jellyFishAnimation.moveSetSwimLila;
+  moveSetDeadLila = jellyFishAnimation.moveSetDeadLila;
+  moveSetSwimYellow = jellyFishAnimation.moveSetSwimYellow;
+  moveSetDeadYellow = jellyFishAnimation.moveSetDeadYellow;
+  moveSetSwimGreen = jellyFishAnimation.moveSetSwimGreen;
+  moveSetDeadGreen = jellyFishAnimation.moveSetDeadGreen;
+  moveSetSwimPink = jellyFishAnimation.moveSetSwimPink;
+  moveSetDeadPink = jellyFishAnimation.moveSetDeadPink;
 
-  moveSetSwimYellow = [
-    'assets/img/2.Enemy/2 Jelly fish/Regular damage/Yellow 1.png',
-    'assets/img/2.Enemy/2 Jelly fish/Regular damage/Yellow 2.png',
-    'assets/img/2.Enemy/2 Jelly fish/Regular damage/Yellow 3.png',
-    'assets/img/2.Enemy/2 Jelly fish/Regular damage/Yellow 4.png'
-  ];
-
-  moveSetSwimGreen = [
-    'assets/img/2.Enemy/2 Jelly fish/Súper dangerous/Green 1.png',
-    'assets/img/2.Enemy/2 Jelly fish/Súper dangerous/Green 2.png',
-    'assets/img/2.Enemy/2 Jelly fish/Súper dangerous/Green 3.png',
-    'assets/img/2.Enemy/2 Jelly fish/Súper dangerous/Green 4.png'
-  ];
-
-  moveSetSwimPink = [
-    'assets/img/2.Enemy/2 Jelly fish/Súper dangerous/Pink 1.png',
-    'assets/img/2.Enemy/2 Jelly fish/Súper dangerous/Pink 2.png',
-    'assets/img/2.Enemy/2 Jelly fish/Súper dangerous/Pink 3.png',
-    'assets/img/2.Enemy/2 Jelly fish/Súper dangerous/Pink 4.png'
-  ];
-
-  constructor() {
+  constructor(variant = Math.floor(Math.random() * 4) + 1, x = 200 + Math.floor(Math.random() * 140)) {
     super();
     this.offset = {
       right: 5,
@@ -40,48 +22,31 @@ class Jellyfish extends MoveableObject {
       top: 5,
       bottom: 5
     };
-    this.variantJellyfish = Math.floor(Math.random() * 4) + 1;
-    if (this.variantJellyfish == 1) {
-      this.currentMoveSet = this.moveSetSwimLila;
-    }
-    if (this.variantJellyfish == 2) {
-      this.currentMoveSet = this.moveSetSwimYellow;
-    }
-    if (this.variantJellyfish == 3) {
-      this.currentMoveSet = this.moveSetSwimGreen;
-    }
-    if (this.variantJellyfish == 4) {
-      this.currentMoveSet = this.moveSetSwimPink;
-    }
-    this.loadImages(this.currentMoveSet);
-    this.x = 200 + Math.floor(Math.random() * 140);
+    this.variantJellyfish = variant;
+    if (this.variantJellyfish == 1) this.loadAllImages(this.moveSetSwimLila, this.moveSetDeadLila);
+    if (this.variantJellyfish == 2) this.loadAllImages(this.moveSetSwimYellow, this.moveSetDeadYellow);
+    if (this.variantJellyfish == 3) this.loadAllImages(this.moveSetSwimGreen, this.moveSetDeadGreen);
+    if (this.variantJellyfish == 4) this.loadAllImages(this.moveSetSwimPink, this.moveSetDeadPink);
+    this.x = x;
     this.y = 50 + Math.floor(Math.random() * 200);
     this.floatHeight = this.y;
     this.direction = 'sinking';
     this.swimHeight;
     this.breakTime = 0.6;
     this.breakCounter = 0;
-    this.animate();
-  }
-
-
-  animate() {
-    setInterval(() => {
+    this.animateId = setInterval(() => {
       this.update();
     }, 100);
   }
 
 
+
   update() {
-    if (this.y < this.floatHeight) {
-      this.sinkingStart();
-    } else if (this.direction === 'sinking') {
-      this.sinkingEnd();
-    } else if (this.direction === 'swimming') {
-      this.swimUp();
-    } else if (this.direction === 'breaking') {
-      this.swimBreak();
-    }
+    if (this.life <= 0) this.death();
+    else if (this.y < this.floatHeight) this.sinkingStart();
+    else if (this.direction === 'sinking') this.sinkingEnd();
+    else if (this.direction === 'swimming') this.swimUp();
+    else if (this.direction === 'breaking') this.swimBreak();
   }
 
 
@@ -97,14 +62,31 @@ class Jellyfish extends MoveableObject {
     this.groundHeight = this.world ? this.world.canvas.height - this.height - (this.world.canvas.height * 0.1) : 0;
     this.y += 2;
     this.img = this.img == this.imageCache[this.currentMoveSet[2]] ? this.imageCache[this.currentMoveSet[3]] : this.imageCache[this.currentMoveSet[2]];
-    if (this.y >= this.groundHeight) {
-      this.stopGravity();
-      this.img = this.imageCache[this.currentMoveSet[0]];
-      this.direction = 'swimming';
-      this.swimHeight = this.y - (Math.floor(Math.random() * 35) + 40);
-    } else if (this.y >= this.groundHeight - (this.world.canvas.height * 0.02)) {
-      this.img = this.imageCache[this.currentMoveSet[3]];
-    }
+    if (this.isAboveGround()) this.startSwimUp();
+    else if (this.isNearGround()) this.prepareStartSwimUp();
+  }
+
+
+  isAboveGround() {
+    return this.y >= this.groundHeight;
+  }
+
+
+  isNearGround() {
+    return this.y >= this.groundHeight - (this.world.canvas.height * 0.02);
+  }
+
+
+  startSwimUp() {
+    this.stopGravity();
+    this.img = this.imageCache[this.currentMoveSet[0]];
+    this.direction = 'swimming';
+    this.swimHeight = this.y - (Math.floor(Math.random() * 35) + 40);
+  }
+
+
+  prepareStartSwimUp() {
+    this.img = this.imageCache[this.currentMoveSet[3]];
   }
 
 
@@ -127,6 +109,27 @@ class Jellyfish extends MoveableObject {
       this.direction = 'swimming';
       this.swimHeight = this.y - (Math.floor(Math.random() * 35) + 40);
       this.breakCounter = 0;
+    }
+  }
+
+
+  loadAllImages(swim, dead) {
+    this.currentMoveSet = swim;
+    this.currentDeadSet = dead;
+    this.loadImages(this.currentMoveSet);
+    this.loadImages(this.currentDeadSet);
+  }
+
+
+  death() {
+    this.life = 0;
+    this.setAnimation(this.currentDeadSet);
+    this.direction = 'dead';
+    this.y -= 4;
+    if (this.y < 0 - this.height) {
+      clearInterval(this.animateId);
+      this.stopGravity;
+      this.destroy(world.level.enemies, this);
     }
   }
 

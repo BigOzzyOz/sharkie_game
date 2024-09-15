@@ -51,12 +51,10 @@ class Pufferfish extends MoveableObject {
     this.loadImages(this.currentMoveSet);
     this.x = 340 + Math.floor(Math.random() * 100);
     this.y = 100 + Math.floor(Math.random() * 200);
-    this.animate();
-  }
-
-  animate() {
-    setInterval(() => {
+    this.animateId = setInterval(() => {
       this.setAnimation(this.currentMoveSet);
     }, 100);
   }
+
+
 }
