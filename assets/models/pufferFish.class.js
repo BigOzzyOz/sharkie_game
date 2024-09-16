@@ -8,7 +8,7 @@ class Pufferfish extends MoveableObject {
   maxLeft;
   maxRight;
   transition = false;
-  stunned = false;
+  isStunned = false;
   lastHit;
 
 
@@ -21,7 +21,8 @@ class Pufferfish extends MoveableObject {
       bottom: 5
     };
     this.variantPufferfish = variant;
-    this.loadAllImages(this.variantPufferfish);
+    this.setAllImages(this.variantPufferfish);
+    this.loadAllImages();
     this.x = x;
     this.y = y;
     this.maxLeft = this.x - 100 - Math.floor(Math.random() * 200);
@@ -31,41 +32,104 @@ class Pufferfish extends MoveableObject {
 
 
   update() {
-    if (this.life <= 0) {
-      this.life = 0;
-      if (this.img.attributes[0].value === this.moveSetDead[0]) {
-        this.y -= 15;
-        this.x -= 15;
-      } else {
-        this.x += 15;
-        this.y += 15;
-      }
-    } else if (this.characterNear()) {
-      this.currentImage = !this.currentMoveSet.includes(this.moveSetTransition[0]) ? 0 : this.currentImage;
-      this.setAnimation(this.moveSetTransition);
-      this.transition = this.currentImage >= this.moveSetTransition.length ? true : false;
-    } else if (this.characterFar()) {
-      this.currentImage = !this.currentMoveSet.includes(this.moveSetTransition[0]) ? 5 : this.currentImage;
-      this.setAnimation(this.moveSetTransition);
-      this.currentImage = this.currentImage - 2;
-      this.transition = this.currentImage === 0 ? false : true;
-    } else if (this.stunned) {
-      let timeExpired = new Date().getTime() - this.lastHit;
-      if (timeExpired <= 3000) {
-        this.currentMoveSet.includes(this.moveSetSwim[0]) ? this.loadImage(this.moveSetDead[1]) : this.loadImage(this.moveSetDead[0]);
-      } else {
-        this.stunned = false;
-      }
-    } else {
-      this.currentMoveSet = this.transition ? this.moveSetBubbleSwim : this.moveSetSwim;
-      this.setAnimation(this.currentMoveSet);
-      if (this.turnAround) {
-        this.swimRight();
-      } else {
-        this.swimLeft();
-      }
-    }
+    if (this.isDead()) this.animateDeath();
+    else if (this.characterNear()) this.animateBubbleUp();
+    else if (this.characterFar()) this.animateBubbleDown();
+    else if (this.isStunned) this.animateStun();
+    else this.animateSwim();
+  }
 
+
+  setAllImages(variant) {
+    this.currentMoveSet = this.loadMoveSet(variant, 'moveSetSwim');
+    this.moveSetSwim = this.currentMoveSet;
+    this.moveSetTransition = this.loadMoveSet(variant, 'moveSetTransition');
+    this.moveSetBubbleSwim = this.loadMoveSet(variant, 'moveSetBubbleSwim');
+    this.moveSetDead = this.loadMoveSet(variant, 'moveSetDead');
+  }
+
+
+  loadMoveSet(variant, moveSetKey) {
+    let images = `${pufferFishAnimation[`${moveSetKey}${variant}`]}`;
+    return images.split(',');
+  }
+
+
+  loadAllImages() {
+    this.loadImages(this.moveSetTransition);
+    this.loadImages(this.moveSetBubbleSwim);
+    this.loadImages(this.moveSetDead);
+    this.loadImages(this.moveSetSwim);
+    this.loadImages(this.currentMoveSet);
+  }
+
+
+  characterNear() {
+    if (!this.world) return false;
+    const distanceX = Math.abs(this.world.character.x + 100 - this.x + 25);
+    const distanceY = Math.abs(this.world.character.y + 100 - this.y + 25);
+    return distanceX <= 150 && distanceY <= 150 && !this.transition && !this.isStunned;
+  };
+
+
+  characterFar() {
+    if (!this.world) return false;
+    const distanceX = Math.abs(this.world.character.x + 100 - this.x + 25);
+    const distanceY = Math.abs(this.world.character.y + 100 - this.y + 25);
+    return (distanceX > 150 || distanceY > 150) && this.transition && !this.isStunned;
+  }
+
+
+  animateDeath() {
+    this.life = 0;
+    this.isBubbledUp() ? this.y -= 15 : this.y += 15;
+    this.isBubbledUp() ? this.x -= 15 : this.x += 15;
+    if (!this.isAboveGround()) this.loadImage(this.moveSetDead[2]);
+    if (this.isOutOfBounds()) {
+      clearInterval(this.animateId);
+      this.destroy(world.level.enemies, this);
+    }
+  }
+
+
+  isBubbledUp() {
+    return this.img.attributes[0].value === this.moveSetDead[0];
+  }
+
+
+  animateBubbleUp() {
+    this.currentImage = !this.currentMoveSet.includes(this.moveSetTransition[0]) ? 0 : this.currentImage;
+    this.setAnimation(this.moveSetTransition);
+    this.transition = this.currentImage >= this.moveSetTransition.length ? true : false;
+  }
+
+
+  animateBubbleDown() {
+    this.currentImage = !this.currentMoveSet.includes(this.moveSetTransition[0]) ? 5 : this.currentImage;
+    this.setAnimation(this.moveSetTransition);
+    this.currentImage = this.currentImage - 2;
+    this.transition = this.currentImage === 0 ? false : true;
+  }
+
+
+  animateStun() {
+    let timeExpired = new Date().getTime() - this.lastHit;
+    if (timeExpired <= 3000) {
+      this.currentMoveSet.includes(this.moveSetSwim[0]) ? this.loadImage(this.moveSetDead[1]) : this.loadImage(this.moveSetDead[0]);
+    } else {
+      this.isStunned = false;
+    }
+  }
+
+
+  animateSwim() {
+    this.currentMoveSet = this.transition ? this.moveSetBubbleSwim : this.moveSetSwim;
+    this.setAnimation(this.currentMoveSet);
+    if (this.turnAround) {
+      this.swimRight();
+    } else {
+      this.swimLeft();
+    }
   }
 
 
@@ -78,40 +142,5 @@ class Pufferfish extends MoveableObject {
   swimRight() {
     this.transition ? this.x += 2.5 : this.x += 5;
     this.turnAround = this.x >= this.maxRight ? false : true;
-  }
-
-
-
-
-  loadAllImages(variant) {
-    let imagesSwim = `${pufferFishAnimation[`moveSetSwim${variant}`]}`;
-    let imagesTransition = `${pufferFishAnimation[`moveSetTransition${variant}`]}`;
-    let imagesBubbleSwim = `${pufferFishAnimation[`moveSetBubbleSwim${variant}`]}`;
-    let imagesDead = `${pufferFishAnimation[`moveSetDead${variant}`]}`;
-    this.currentMoveSet = imagesSwim.split(',');
-    this.moveSetSwim = imagesSwim.split(',');
-    this.moveSetTransition = imagesTransition.split(',');
-    this.moveSetBubbleSwim = imagesBubbleSwim.split(',');
-    this.moveSetDead = imagesDead.split(',');
-    this.loadImages(this.moveSetTransition);
-    this.loadImages(this.moveSetBubbleSwim);
-    this.loadImages(this.moveSetDead);
-    this.loadImages(this.currentMoveSet);
-  }
-
-
-  characterNear() {
-    if (!this.world) return false;
-    const distanceX = Math.abs(this.world.character.x + 100 - this.x + 25);
-    const distanceY = Math.abs(this.world.character.y + 100 - this.y + 25);
-    return distanceX <= 150 && distanceY <= 150 && !this.transition && !this.stunned;
-  };
-
-
-  characterFar() {
-    if (!this.world) return false;
-    const distanceX = Math.abs(this.world.character.x + 100 - this.x + 25);
-    const distanceY = Math.abs(this.world.character.y + 100 - this.y + 25);
-    return (distanceX > 150 || distanceY > 150) && this.transition && !this.stunned;
   }
 }

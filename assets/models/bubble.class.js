@@ -34,7 +34,7 @@ class Bubble extends MoveableObject {
 
 
   outOfView() {
-    return world.bubbles.length > 0 && this.y < 0 - this.height;
+    return world.bubbles.length > 0 && this.isOutOfBounds();
   }
 
 
@@ -46,7 +46,7 @@ class Bubble extends MoveableObject {
     }
     if (enemy instanceof Pufferfish) {
       enemy.lastHit = new Date().getTime();
-      enemy.stunned = true;
+      enemy.isStunned = true;
     }
     this.destroyBubble();
   }

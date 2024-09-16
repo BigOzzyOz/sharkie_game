@@ -31,7 +31,7 @@ class Jellyfish extends MoveableObject {
 
 
   update() {
-    if (this.life <= 0) this.death();
+    if (this.isDead()) this.death();
     else if (this.y < this.floatHeight) this.sinkingStart();
     else if (this.direction === 'sinking') this.sinkingEnd();
     else if (this.direction === 'swimming') this.swimUp();
@@ -115,7 +115,7 @@ class Jellyfish extends MoveableObject {
     this.setAnimation(this.currentDeadSet);
     this.direction = 'dead';
     this.y -= 4;
-    if (this.y < 0 - this.height) {
+    if (this.isOutOfBounds()) {
       clearInterval(this.animateId);
       this.stopGravity;
       this.destroy(world.level.enemies, this);

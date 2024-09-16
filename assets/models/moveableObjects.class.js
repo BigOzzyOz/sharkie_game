@@ -85,4 +85,18 @@ class MoveableObject extends DrawableObjects {
   destroy(arr, obj) {
     arr.splice(arr.findIndex(o => o.y === obj.y), 1);
   }
+
+
+  isDead() {
+    return this.life <= 0;
+  }
+
+
+  isOutOfBounds() {
+    if (!this.world) {
+      return this.y < 0 - this.height;
+    } else {
+      return this.y < 0 - this.height || this.y > this.world.canvas.height;
+    }
+  }
 }

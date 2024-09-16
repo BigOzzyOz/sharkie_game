@@ -317,6 +317,6 @@ class Character extends MoveableObject {
 
 
   canAttackPufferfish(enemy) {
-    return !this.isHurt() && this.isAlive() && enemy instanceof Pufferfish && enemy.stunned && this.world.keyboard.SPACE;
+    return !this.isHurt() && this.isAlive() && enemy instanceof Pufferfish && enemy.isStunned && this.world.keyboard.SPACE;
   }
 }
