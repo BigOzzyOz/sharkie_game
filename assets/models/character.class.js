@@ -197,7 +197,7 @@ class Character extends MoveableObject {
 
   isHurt() {
     let timePassed = new Date().getTime() - this.lastHit;
-    return timePassed < 750;
+    return timePassed < 1500;
   }
 
 

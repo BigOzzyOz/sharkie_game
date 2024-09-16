@@ -1,23 +1,17 @@
 class Boss extends MoveableObject {
-  x = 400;
+  y = 0;
+  x = 420;
   height = 300;
   width = 300;
+  isHit = false;
+  lastAttack;
+  attackPossible = true;
 
-  moveSetFloating = [
-    'assets/img/2.Enemy/3 Final Enemy/2.floating/1.png',
-    'assets/img/2.Enemy/3 Final Enemy/2.floating/2.png',
-    'assets/img/2.Enemy/3 Final Enemy/2.floating/3.png',
-    'assets/img/2.Enemy/3 Final Enemy/2.floating/4.png',
-    'assets/img/2.Enemy/3 Final Enemy/2.floating/5.png',
-    'assets/img/2.Enemy/3 Final Enemy/2.floating/6.png',
-    'assets/img/2.Enemy/3 Final Enemy/2.floating/7.png',
-    'assets/img/2.Enemy/3 Final Enemy/2.floating/8.png',
-    'assets/img/2.Enemy/3 Final Enemy/2.floating/9.png',
-    'assets/img/2.Enemy/3 Final Enemy/2.floating/10.png',
-    'assets/img/2.Enemy/3 Final Enemy/2.floating/11.png',
-    'assets/img/2.Enemy/3 Final Enemy/2.floating/12.png',
-    'assets/img/2.Enemy/3 Final Enemy/2.floating/13.png'
-  ];
+  moveSetFloating = bossAnimation.moveSetFloating;
+  moveSetIntro = bossAnimation.moveSetIntro;
+  moveSetAttack = bossAnimation.moveSetAttack;
+  moveSetHurt = bossAnimation.moveSetHurt;
+  moveSetDead = bossAnimation.moveSetDead;
 
   constructor() {
     super();
@@ -28,9 +22,82 @@ class Boss extends MoveableObject {
       bottom: 60
     };
     this.loadImages(this.moveSetFloating);
-    this.animateId = setInterval(() => {
-      this.setAnimation(this.moveSetFloating);
-    }, 100);
+    this.loadImages(this.moveSetIntro);
+    this.loadImages(this.moveSetAttack);
+    this.loadImages(this.moveSetHurt);
+    this.loadImages(this.moveSetDead);
+    this.currentMoveSet = this.moveSetFloating;
+    this.setAnimation(this.currentMoveSet);
+    this.animateId = setInterval(() => this.update(), 100);
   }
 
+
+  update() {
+    if (!this.world) return;
+    this.checkAttack();
+    if (this.isDead()) {
+      this.setMoveSet(this.moveSetDead);
+      if (this.currentImage === this.moveSetDead.length) this.currentImage = this.moveSetDead.length - 1;
+    } else if (this.bossIntroPlayed()) {
+      this.setMoveSet(this.moveSetIntro);
+      if (this.currentImage === this.moveSetIntro.length) this.world.character.bossInsight = true;
+    } else if (this.isHit) {
+      this.setMoveSet(this.moveSetHurt);
+      if (this.currentImage === this.moveSetHurt.length * 3) this.isHit = false;
+    } else if (this.characterIsNear() && this.attackPossible) {
+      this.speed = 20;
+      this.setMoveSet(this.moveSetAttack);
+      if (this.currentImage === this.moveSetAttack.length) {
+        this.attackPossible = false;
+        this.lastAttack = new Date().getTime();
+      }
+      this.swimMove();
+    } else if (this.world.character.bossInsight) {
+      this.speed = 6;
+      this.setMoveSet(this.moveSetFloating);
+      this.swimMove();
+    }
+  }
+
+
+  checkAttack() {
+    let timeExpired = new Date().getTime();
+    if (timeExpired - this.lastAttack > 5000) this.attackPossible = true;
+  }
+
+
+  setMoveSet(set) {
+    this.currentImage = !this.currentMoveSet.includes(set[0]) ? 0 : this.currentImage;
+    this.setAnimation(set);
+  }
+
+
+  characterIsNear() {
+    let dx = this.world.character.x - this.x;
+    let dy = this.world.character.y - this.y;
+    if (!this.turnAround) return Math.sqrt(dx * dx + dy * dy) < 250;
+    else return Math.sqrt(dx * dx + dy * dy) < 450;
+  }
+
+
+  bossIntroPlayed() {
+    if (!this.world) return false;
+    else return !this.world.character.bossInsight && this.world.character.x < this.x + 420;
+  }
+
+
+  swimMove() {
+    let dx = this.world.character.x - this.x;
+    let dy = this.world.character.y - this.y;
+    let distance = Math.sqrt(dx * dx + dy * dy);
+    let directionX = dx / distance;
+    let directionY = dy / distance;
+    this.turnAround = directionX < 0 ? false : true;
+    this.x += directionX * this.speed;
+    if (!this.isOutOfBounds()) this.y += directionY * this.speed;
+  }
+
+  isOutOfBounds() {
+    return this.y <= 0 - this.offset.top || this.y + this.height >= this.world.canvas.height;
+  }
 }

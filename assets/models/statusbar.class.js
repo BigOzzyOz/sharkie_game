@@ -23,10 +23,10 @@ class Statusbar extends DrawableObjects {
       this.currentMoveSet = this.imagesLife;
     } else if (bar === 1) {
       this.currentMoveSet = this.imagePoison;
-      this.poisonCounter = 0;
+      this.poisonCounter = 5;
     } else if (bar === 2) {
       this.currentMoveSet = this.imageCoin;
-      this.coinCounter = 0;
+      this.coinCounter = 555;
     }
     this.loadImages(this.currentMoveSet);
   }

@@ -40,9 +40,10 @@ class Bubble extends MoveableObject {
 
   isHit(enemy) {
     if (enemy instanceof Jellyfish) enemy.life = enemy.life - 100;
-    else if (enemy instanceof Boss) {
+    else if (enemy instanceof Boss && !enemy.isHit) {
+      enemy.isHit = true;
       if (this.bubbleType === 'poison') enemy.life = enemy.life - 20;
-      else if (this.bubbleType === 'normal') enemy.life = enemy.life - 5;
+      else if (this.bubbleType === 'normal') enemy.life = enemy.life - 2;
     }
     if (enemy instanceof Pufferfish) {
       enemy.lastHit = new Date().getTime();
