@@ -44,6 +44,10 @@ class Bubble extends MoveableObject {
       if (this.bubbleType === 'poison') enemy.life = enemy.life - 20;
       else if (this.bubbleType === 'normal') enemy.life = enemy.life - 5;
     }
+    if (enemy instanceof Pufferfish) {
+      enemy.lastHit = new Date().getTime();
+      enemy.stunned = true;
+    }
     this.destroyBubble();
   }
 

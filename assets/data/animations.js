@@ -262,13 +262,13 @@ const pufferFishAnimation = {
 
   moveSetDead2: [
     'assets/img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/2.png',
-    'assets/img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/2.2.png',
-    'assets/img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/2.3.png'
+    'assets/img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/2.3.png',
+    'assets/img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/2.2.png'
   ],
 
   moveSetDead3: [
     'assets/img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/3.png',
-    'assets/img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/3.2.png',
-    'assets/img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/3.3.png'
+    'assets/img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/3.3.png',
+    'assets/img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/3.2.png'
   ]
 };

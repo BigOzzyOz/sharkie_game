@@ -8,6 +8,8 @@ class Pufferfish extends MoveableObject {
   maxLeft;
   maxRight;
   transition = false;
+  stunned = false;
+  lastHit;
 
 
   constructor(variant = Math.floor(Math.random() * 3) + 1, x = 340 + Math.floor(Math.random() * 100), y = 100 + Math.floor(Math.random() * 200)) {
@@ -15,7 +17,7 @@ class Pufferfish extends MoveableObject {
     this.offset = {
       right: 5,
       left: 5,
-      top: 10,
+      top: 5,
       bottom: 5
     };
     this.variantPufferfish = variant;
@@ -29,7 +31,16 @@ class Pufferfish extends MoveableObject {
 
 
   update() {
-    if (this.characterNear()) {
+    if (this.life <= 0) {
+      this.life = 0;
+      if (this.img.attributes[0].value === this.moveSetDead[0]) {
+        this.y -= 15;
+        this.x -= 15;
+      } else {
+        this.x += 15;
+        this.y += 15;
+      }
+    } else if (this.characterNear()) {
       this.currentImage = !this.currentMoveSet.includes(this.moveSetTransition[0]) ? 0 : this.currentImage;
       this.setAnimation(this.moveSetTransition);
       this.transition = this.currentImage >= this.moveSetTransition.length ? true : false;
@@ -38,6 +49,13 @@ class Pufferfish extends MoveableObject {
       this.setAnimation(this.moveSetTransition);
       this.currentImage = this.currentImage - 2;
       this.transition = this.currentImage === 0 ? false : true;
+    } else if (this.stunned) {
+      let timeExpired = new Date().getTime() - this.lastHit;
+      if (timeExpired <= 3000) {
+        this.currentMoveSet.includes(this.moveSetSwim[0]) ? this.loadImage(this.moveSetDead[1]) : this.loadImage(this.moveSetDead[0]);
+      } else {
+        this.stunned = false;
+      }
     } else {
       this.currentMoveSet = this.transition ? this.moveSetBubbleSwim : this.moveSetSwim;
       this.setAnimation(this.currentMoveSet);
@@ -86,7 +104,7 @@ class Pufferfish extends MoveableObject {
     if (!this.world) return false;
     const distanceX = Math.abs(this.world.character.x + 100 - this.x + 25);
     const distanceY = Math.abs(this.world.character.y + 100 - this.y + 25);
-    return distanceX <= 150 && distanceY <= 150 && !this.transition;
+    return distanceX <= 150 && distanceY <= 150 && !this.transition && !this.stunned;
   };
 
 
@@ -94,6 +112,6 @@ class Pufferfish extends MoveableObject {
     if (!this.world) return false;
     const distanceX = Math.abs(this.world.character.x + 100 - this.x + 25);
     const distanceY = Math.abs(this.world.character.y + 100 - this.y + 25);
-    return (distanceX > 150 || distanceY > 150) && this.transition;
+    return (distanceX > 150 || distanceY > 150) && this.transition && !this.stunned;
   }
 }

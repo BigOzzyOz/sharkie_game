@@ -185,7 +185,10 @@ class Character extends MoveableObject {
 
   isHit(enemy) {
     if (this.life < 0) this.life = 0;
-    else if (!this.isHurt() && this.isAlive()) {
+    else if (this.canAttackPufferfish(enemy)) {
+      enemy.life -= 100;
+    }
+    else if (!this.isHurt() && this.isAlive() && enemy.life > 0) {
       this.lastEnemy = enemy;
       this.lastHit = new Date().getTime();
       this.life -= 20;
@@ -253,12 +256,17 @@ class Character extends MoveableObject {
   animateAttack(set) {
     this.currentImage = !this.currentMoveSet.includes(set[0]) ? 0 : this.currentImage;
     this.setAnimation(set);
+    if (this.world.keyboard.SPACE) {
+      this.offset.right = 15;
+      this.x += 4;
+    }
     if (this.currentImage === set.length) {
       this.currentImage = 0;
       if (this.world.keyboard.D) {
         let bubble = new Bubble(this.x, this.y);
         this.world.bubbles.push(bubble);
       }
+      this.offset.right = 45;
       this.world.keyboard.D = false;
       this.world.keyboard.SPACE = false;
     }
@@ -305,5 +313,10 @@ class Character extends MoveableObject {
     this.swim_sound.muted = false;
     document.removeEventListener('click', this.unmuteSound);
     document.removeEventListener('keydown', this.unmuteSound);
+  }
+
+
+  canAttackPufferfish(enemy) {
+    return !this.isHurt() && this.isAlive() && enemy instanceof Pufferfish && enemy.stunned && this.world.keyboard.SPACE;
   }
 }

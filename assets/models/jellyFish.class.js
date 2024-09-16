@@ -6,7 +6,7 @@ class Jellyfish extends MoveableObject {
   currentDeadSet;
 
 
-  constructor(variant = Math.floor(Math.random() * 4) + 1, x = 200 + Math.floor(Math.random() * 140)) {
+  constructor(variant = Math.floor(Math.random() * 4) + 1, x = 200 + Math.floor(Math.random() * 140), y = 50 + Math.floor(Math.random() * 200)) {
     super();
     this.offset = {
       right: 5,
@@ -20,7 +20,7 @@ class Jellyfish extends MoveableObject {
     if (this.variantJellyfish == 3) this.loadAllImages(jellyFishAnimation.moveSetSwimGreen, jellyFishAnimation.moveSetDeadGreen);
     if (this.variantJellyfish == 4) this.loadAllImages(jellyFishAnimation.moveSetSwimPink, jellyFishAnimation.moveSetDeadPink);
     this.x = x;
-    this.y = 50 + Math.floor(Math.random() * 200);
+    this.y = y;
     this.floatHeight = this.y;
     this.direction = 'sinking';
     this.swimHeight;
