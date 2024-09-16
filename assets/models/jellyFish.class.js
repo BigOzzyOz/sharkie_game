@@ -5,14 +5,6 @@ class Jellyfish extends MoveableObject {
   groundHeight;
   currentDeadSet;
 
-  moveSetSwimLila = jellyFishAnimation.moveSetSwimLila;
-  moveSetDeadLila = jellyFishAnimation.moveSetDeadLila;
-  moveSetSwimYellow = jellyFishAnimation.moveSetSwimYellow;
-  moveSetDeadYellow = jellyFishAnimation.moveSetDeadYellow;
-  moveSetSwimGreen = jellyFishAnimation.moveSetSwimGreen;
-  moveSetDeadGreen = jellyFishAnimation.moveSetDeadGreen;
-  moveSetSwimPink = jellyFishAnimation.moveSetSwimPink;
-  moveSetDeadPink = jellyFishAnimation.moveSetDeadPink;
 
   constructor(variant = Math.floor(Math.random() * 4) + 1, x = 200 + Math.floor(Math.random() * 140)) {
     super();
@@ -23,10 +15,10 @@ class Jellyfish extends MoveableObject {
       bottom: 5
     };
     this.variantJellyfish = variant;
-    if (this.variantJellyfish == 1) this.loadAllImages(this.moveSetSwimLila, this.moveSetDeadLila);
-    if (this.variantJellyfish == 2) this.loadAllImages(this.moveSetSwimYellow, this.moveSetDeadYellow);
-    if (this.variantJellyfish == 3) this.loadAllImages(this.moveSetSwimGreen, this.moveSetDeadGreen);
-    if (this.variantJellyfish == 4) this.loadAllImages(this.moveSetSwimPink, this.moveSetDeadPink);
+    if (this.variantJellyfish == 1) this.loadAllImages(jellyFishAnimation.moveSetSwimLila, jellyFishAnimation.moveSetDeadLila);
+    if (this.variantJellyfish == 2) this.loadAllImages(jellyFishAnimation.moveSetSwimYellow, jellyFishAnimation.moveSetDeadYellow);
+    if (this.variantJellyfish == 3) this.loadAllImages(jellyFishAnimation.moveSetSwimGreen, jellyFishAnimation.moveSetDeadGreen);
+    if (this.variantJellyfish == 4) this.loadAllImages(jellyFishAnimation.moveSetSwimPink, jellyFishAnimation.moveSetDeadPink);
     this.x = x;
     this.y = 50 + Math.floor(Math.random() * 200);
     this.floatHeight = this.y;
@@ -34,11 +26,8 @@ class Jellyfish extends MoveableObject {
     this.swimHeight;
     this.breakTime = 0.6;
     this.breakCounter = 0;
-    this.animateId = setInterval(() => {
-      this.update();
-    }, 100);
+    this.animateId = setInterval(() => this.update(), 100);
   }
-
 
 
   update() {
