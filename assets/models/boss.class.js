@@ -6,6 +6,7 @@ class Boss extends MoveableObject {
   isHit = false;
   lastAttack;
   attackPossible = true;
+  startPoint;
 
   moveSetFloating = bossAnimation.moveSetFloating;
   moveSetIntro = bossAnimation.moveSetIntro;
@@ -13,7 +14,7 @@ class Boss extends MoveableObject {
   moveSetHurt = bossAnimation.moveSetHurt;
   moveSetDead = bossAnimation.moveSetDead;
 
-  constructor() {
+  constructor(x = 2000) {
     super();
     this.offset = {
       right: 40,
@@ -21,6 +22,8 @@ class Boss extends MoveableObject {
       top: 140,
       bottom: 60
     };
+    this.x = x;
+    this.startPoint = x;
     this.loadImages(this.moveSetFloating);
     this.loadImages(this.moveSetIntro);
     this.loadImages(this.moveSetAttack);
@@ -34,29 +37,11 @@ class Boss extends MoveableObject {
 
   update() {
     if (!this.world) return;
-    this.checkAttack();
-    if (this.isDead()) {
-      this.setMoveSet(this.moveSetDead);
-      if (this.currentImage === this.moveSetDead.length) this.currentImage = this.moveSetDead.length - 1;
-    } else if (this.bossIntroPlayed()) {
-      this.setMoveSet(this.moveSetIntro);
-      if (this.currentImage === this.moveSetIntro.length) this.world.character.bossInsight = true;
-    } else if (this.isHit) {
-      this.setMoveSet(this.moveSetHurt);
-      if (this.currentImage === this.moveSetHurt.length * 3) this.isHit = false;
-    } else if (this.characterIsNear() && this.attackPossible) {
-      this.speed = 20;
-      this.setMoveSet(this.moveSetAttack);
-      if (this.currentImage === this.moveSetAttack.length) {
-        this.attackPossible = false;
-        this.lastAttack = new Date().getTime();
-      }
-      this.swimMove();
-    } else if (this.world.character.bossInsight) {
-      this.speed = 6;
-      this.setMoveSet(this.moveSetFloating);
-      this.swimMove();
-    }
+    if (this.isDead()) this.animateDeath();
+    else if (this.bossIntroPlayed()) this.animateIntro();
+    else if (this.isHit) this.animateHit();
+    else if (this.characterIsNear() && this.attackPossible) this.animateAttack();
+    else if (this.world.character.bossInsight) this.animateFloat();
   }
 
 
@@ -73,31 +58,71 @@ class Boss extends MoveableObject {
 
 
   characterIsNear() {
-    let dx = this.world.character.x - this.x;
-    let dy = this.world.character.y - this.y;
+    let dx = this.world.character.x + this.width / 2 - (this.x + this.width / 2);
+    let dy = this.world.character.y + this.height / 2 - (this.y + this.height / 2);
     if (!this.turnAround) return Math.sqrt(dx * dx + dy * dy) < 250;
     else return Math.sqrt(dx * dx + dy * dy) < 450;
   }
 
 
   bossIntroPlayed() {
-    if (!this.world) return false;
-    else return !this.world.character.bossInsight && this.world.character.x < this.x + 420;
+    return !this.world.character.bossInsight && this.world.character.x >= this.startPoint - 720;
   }
 
 
   swimMove() {
-    let dx = this.world.character.x - this.x;
-    let dy = this.world.character.y - this.y;
+    let dx = this.world.character.x + this.width / 2 - (this.x + this.width / 2);
+    let dy = this.world.character.y + this.height / 2 - (this.y + this.height / 2);
     let distance = Math.sqrt(dx * dx + dy * dy);
     let directionX = dx / distance;
     let directionY = dy / distance;
     this.turnAround = directionX < 0 ? false : true;
     this.x += directionX * this.speed;
-    if (!this.isOutOfBounds()) this.y += directionY * this.speed;
+    if (!this.isOutOfBounds(directionY * this.speed)) this.y += directionY * this.speed;
   }
 
-  isOutOfBounds() {
-    return this.y <= 0 - this.offset.top || this.y + this.height >= this.world.canvas.height;
+
+  isOutOfBounds(futureMove) {
+    return this.y + futureMove <= 0 - this.offset.top || this.y + this.height + futureMove >= this.world.canvas.height;
   }
+
+
+  animateDeath() {
+    this.setMoveSet(this.moveSetDead);
+    if (this.currentImage === this.moveSetDead.length) this.currentImage = this.moveSetDead.length - 1;
+  }
+
+
+  animateIntro() {
+    this.x = this.startPoint - 300;
+    this.setMoveSet(this.moveSetIntro);
+    if (this.currentImage === this.moveSetIntro.length) this.world.character.bossInsight = true;
+  }
+
+
+  animateAttack() {
+    this.speed = 20;
+    this.setMoveSet(this.moveSetAttack);
+    if (this.currentImage === this.moveSetAttack.length) {
+      this.attackPossible = false;
+      this.lastAttack = new Date().getTime();
+    }
+    this.swimMove();
+  }
+
+
+  animateHit() {
+    this.setMoveSet(this.moveSetHurt);
+    if (this.currentImage === this.moveSetHurt.length * 3) this.isHit = false;
+  }
+
+
+  animateFloat() {
+    this.speed = 6;
+    this.setMoveSet(this.moveSetFloating);
+    this.swimMove();
+    this.checkAttack();
+  }
+
 }
+

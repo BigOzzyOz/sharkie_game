@@ -28,8 +28,6 @@ class DrawableObjects {
   }
 
 
-
-
   imageMirror(ctx) {
     ctx.save();
     ctx.scale(-1, 1);
