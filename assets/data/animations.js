@@ -333,3 +333,24 @@ const bossAnimation = {
     'assets/img/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 10.png'
   ]
 };
+
+
+const collectableObject = {
+  moveSetCoins: [
+    'assets/img/4. Marcadores/1. Coins/1.png',
+    'assets/img/4. Marcadores/1. Coins/2.png',
+    'assets/img/4. Marcadores/1. Coins/3.png',
+    'assets/img/4. Marcadores/1. Coins/4.png'
+  ],
+
+  moveSetPoison: [
+    'assets/img/4. Marcadores/Posión/Animada/1.png',
+    'assets/img/4. Marcadores/Posión/Animada/2.png',
+    'assets/img/4. Marcadores/Posión/Animada/3.png',
+    'assets/img/4. Marcadores/Posión/Animada/4.png',
+    'assets/img/4. Marcadores/Posión/Animada/5.png',
+    'assets/img/4. Marcadores/Posión/Animada/6.png',
+    'assets/img/4. Marcadores/Posión/Animada/7.png',
+    'assets/img/4. Marcadores/Posión/Animada/8.png'
+  ]
+};

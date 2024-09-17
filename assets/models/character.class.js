@@ -188,12 +188,18 @@ class Character extends MoveableObject {
     else if (this.canAttackPufferfish(enemy)) {
       enemy.life -= 100;
     }
-    else if (!this.isHurt() && this.isAlive() && enemy.life > 0) {
+    else if (this.canGetDamage(enemy)) {
       this.lastEnemy = enemy;
       this.lastHit = new Date().getTime();
       this.life -= 20;
     }
   }
+
+
+  canGetDamage(enemy) {
+    return !this.isHurt() && this.isAlive() && enemy.life > 0 && !enemy.isStunned;
+  }
+
 
   isHurt() {
     let timePassed = new Date().getTime() - this.lastHit;
@@ -256,20 +262,37 @@ class Character extends MoveableObject {
   animateAttack(set) {
     this.currentImage = !this.currentMoveSet.includes(set[0]) ? 0 : this.currentImage;
     this.setAnimation(set);
-    if (this.world.keyboard.SPACE) {
-      this.offset.right = 15;
-      this.x += 4;
-    }
+    this.executeFinSlap();
     if (this.currentImage === set.length) {
-      this.currentImage = 0;
-      if (this.world.keyboard.D) {
-        let bubble = new Bubble(this.x, this.y);
-        this.world.bubbles.push(bubble);
-      }
-      this.offset.right = 45;
-      this.world.keyboard.D = false;
-      this.world.keyboard.SPACE = false;
+      this.executeBubble();
+      this.resetToOrigin();
     }
+  }
+
+
+  executeFinSlap() {
+    if (this.world.keyboard.SPACE) {
+      this.offset.right = this.turnAround ? 45 : 15;
+      this.offset.left = this.turnAround ? 15 : 45;
+      this.x = this.turnAround ? this.x - 5 : this.x + 5;
+    }
+  }
+
+
+  executeBubble() {
+    if (this.world.keyboard.D) {
+      let bubble = new Bubble(this.x, this.y);
+      this.world.bubbles.push(bubble);
+    }
+  }
+
+
+  resetToOrigin() {
+    this.currentImage = 0;
+    this.offset.right = 45;
+    this.offset.left = 45;
+    this.world.keyboard.D = false;
+    this.world.keyboard.SPACE = false;
   }
 
 
@@ -308,6 +331,7 @@ class Character extends MoveableObject {
       console.log("Autoplay was prevented, sound will be unmuted on user interaction.");
     });
   }
+
 
   unmuteSound() {
     this.swim_sound.muted = false;

@@ -1,10 +1,14 @@
 const level1 = new Level(
   [
-    new Pufferfish(),
-    new Pufferfish(),
-    new Jellyfish(),
-    new Jellyfish(),
-    new Boss()
+    new Pufferfish(undefined, 720, 100),
+    new Pufferfish(undefined, 720, 150),
+    new Jellyfish(undefined, 960),
+    new Jellyfish(undefined, 1080),
+    new Boss(5000)
+  ],
+
+  [
+
   ],
 
   [
