@@ -56,10 +56,14 @@ class World {
       }
       this.bubbles.forEach((bubble) => {
         if (bubble.isColliding(enemy)) {
-          console.log("hit", bubble, "enemy", enemy);
           bubble.isHit(enemy);
         }
       });
+    });
+    this.level.collectables.forEach((collectable) => {
+      if (this.character.isColliding(collectable)) {
+        collectable.isCollected();
+      }
     });
   }
 
@@ -71,6 +75,7 @@ class World {
 
     this.addObjectToMap(this.backgroundImage);
     this.addObjectToMap(this.level.enemies);
+    this.addObjectToMap(this.level.collectables);
     this.addToMap(this.character);
     this.addObjectToMap(this.bubbles);
     this.addToMap(this.statusBarLife);

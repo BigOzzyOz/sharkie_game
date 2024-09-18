@@ -48,7 +48,7 @@ class DrawableObjects {
 
 
   frameDraw(ctx) {
-    if (this instanceof Character || this instanceof Jellyfish || this instanceof Pufferfish || this instanceof Boss) {
+    if (this instanceof Character || this instanceof Jellyfish || this instanceof Pufferfish || this instanceof Boss || this instanceof CollectableObject) {
       ctx.beginPath();
       ctx.strokeStyle = '#0f0';
       ctx.lineWidth = 3;

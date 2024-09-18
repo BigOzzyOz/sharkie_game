@@ -8,7 +8,8 @@ const level1 = new Level(
   ],
 
   [
-
+    new CollectableObject('coin', 200, 100),
+    new CollectableObject('poison', 200, 200)
   ],
 
   [
