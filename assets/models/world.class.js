@@ -27,7 +27,7 @@ class World {
     this.level.enemies.forEach((enemy) => {
       enemy.world = this;
     });
-    for (let i = -1; i < 9; i++) {
+    for (let i = -1; i < 7; i++) {
       if (i % 2 === 0) {
         for (let j = 0; j < 5; j++) {
           this.backgroundImage.push(new Background(this.level.backgroundImageSet1[j], i * this.canvas.width, this.canvas.width, this.canvas.height));
@@ -74,6 +74,7 @@ class World {
     this.ctx.translate(this.camera_x, 0);
 
     this.addObjectToMap(this.backgroundImage);
+    this.addObjectToMap(this.level.barriers);
     this.addObjectToMap(this.level.enemies);
     this.addObjectToMap(this.level.collectables);
     this.addToMap(this.character);

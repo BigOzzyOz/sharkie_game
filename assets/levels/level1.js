@@ -4,7 +4,7 @@ const level1 = new Level(
     new Pufferfish(undefined, 720, 150),
     new Jellyfish(undefined, 960),
     new Jellyfish(undefined, 1080),
-    new Boss(5000)
+    new Boss(4300)
   ],
 
   [
@@ -26,5 +26,10 @@ const level1 = new Level(
     'assets/img/3. Background/Layers/3.Fondo 1/L2.png',
     'assets/img/3. Background/Layers/2. Floor/L2.png',
     'assets/img/3. Background/Layers/1. Light/2.png'
+  ],
+
+  [
+    new Barrier(0 - 45, false),
+    new Barrier(720 * 6 - 45, true)
   ]
 );
