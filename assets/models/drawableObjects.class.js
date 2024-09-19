@@ -1,7 +1,7 @@
 class DrawableObjects {
   world;
   x = 20;
-  y = 100;
+  y = 120;
   height = 100;
   width = 100;
   img;

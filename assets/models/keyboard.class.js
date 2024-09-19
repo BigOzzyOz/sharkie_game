@@ -9,7 +9,6 @@ class Keyboard {
   LEFTUP = false;
   LEFTDOWN = false;
   D = false;
-
-
+  ESC = false;
 
 }

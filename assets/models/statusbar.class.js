@@ -1,14 +1,7 @@
 class Statusbar extends DrawableObjects {
-  imagesLife = [
-    'assets/img/4. Marcadores/green/Life/100_  copia 2.png',
-    'assets/img/4. Marcadores/green/Life/80_  copia 3.png',
-    'assets/img/4. Marcadores/Purple/60_ .png',
-    'assets/img/4. Marcadores/Purple/40_ .png',
-    'assets/img/4. Marcadores/orange/20_ copia 2.png',
-    'assets/img/4. Marcadores/orange/0_  copia.png'
-  ];
-  imagePoison = ['assets/img/4. Marcadores/green/100_ copia 5.png'];
-  imageCoin = ['assets/img/4. Marcadores/green/100_ copia 6.png'];
+  imagesLife = statusBar.imagesLife;
+  imagePoison = statusBar.imagePoison;
+  imageCoin = statusBar.imageCoin;
   currentLife;
   poisonCounter;
   coinCounter;
@@ -23,10 +16,10 @@ class Statusbar extends DrawableObjects {
       this.currentMoveSet = this.imagesLife;
     } else if (bar === 1) {
       this.currentMoveSet = this.imagePoison;
-      this.poisonCounter = 5;
+      this.poisonCounter = 0;
     } else if (bar === 2) {
       this.currentMoveSet = this.imageCoin;
-      this.coinCounter = 555;
+      this.coinCounter = 0;
     }
     this.loadImages(this.currentMoveSet);
   }

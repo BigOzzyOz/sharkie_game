@@ -83,7 +83,7 @@ class MoveableObject extends DrawableObjects {
 
 
   destroy(arr, obj) {
-    arr.splice(arr.findIndex(o => o.y === obj.y), 1);
+    arr.splice(arr.findIndex(o => o.y === obj.y && o.x === obj.x), 1);
   }
 
 
