@@ -87,7 +87,11 @@ class Boss extends MoveableObject {
 
 
   animateDeath() {
-    this.startGravity();
+    if (!this.dead) {
+      for (let i = 0; i < 10; i++) {
+        this.giveReward();
+      }
+    }
     this.setMoveSet(this.moveSetDead);
     if (this.currentImage === this.moveSetDead.length) this.currentImage = this.moveSetDead.length - 1;
   }

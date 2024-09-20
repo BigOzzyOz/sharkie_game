@@ -111,6 +111,7 @@ class Jellyfish extends MoveableObject {
 
 
   death() {
+    if (!this.dead) this.giveReward();
     this.life = 0;
     this.setAnimation(this.currentDeadSet);
     this.direction = 'dead';

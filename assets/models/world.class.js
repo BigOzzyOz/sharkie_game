@@ -7,9 +7,9 @@ class World {
   ctx;
   keyboard;
   camera_x = 0;
-  statusBarLife = new Statusbar(15, 400, 200, 0);
-  statusBarPoison = new Statusbar(200, 400, 60, 1);
-  statusBarCoin = new Statusbar(560, 410, 60, 2);
+  statusBarLife = new Statusbar(15, 0, 200, 0);
+  statusBarPoison = new Statusbar(200, 0, 60, 1);
+  statusBarCoin = new Statusbar(560, 10, 60, 2);
 
 
   constructor(canvas, keyboard) {
@@ -75,13 +75,13 @@ class World {
 
     this.addObjectToMap(this.backgroundImage);
     this.addObjectToMap(this.level.barriers);
-    this.addObjectToMap(this.level.enemies);
     this.addObjectToMap(this.level.collectables);
-    this.addToMap(this.character);
-    this.addObjectToMap(this.bubbles);
+    this.addObjectToMap(this.level.enemies);
     this.addToMap(this.statusBarLife);
     this.addToMap(this.statusBarPoison);
     this.addToMap(this.statusBarCoin);
+    this.addToMap(this.character);
+    this.addObjectToMap(this.bubbles);
 
     this.ctx.translate(-this.camera_x, 0);
 

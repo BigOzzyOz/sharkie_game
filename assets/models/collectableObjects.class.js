@@ -13,11 +13,11 @@ class CollectableObject extends MoveableObject {
     if (variant === 'coin') {
       this.width = 30;
       this.height = 30;
-      this.loadImages(collectableObject.moveSetCoins);
       this.currentMoveSet = collectableObject.moveSetCoins;
+      this.loadImages(collectableObject.moveSetCoins);
     } else if (variant === 'poison') {
-      this.loadImages(collectableObject.moveSetPoison);
       this.currentMoveSet = collectableObject.moveSetPoison;
+      this.loadImages(collectableObject.moveSetPoison);
       this.width = 45;
       this.height = 60;
       this.offset = {

@@ -89,7 +89,7 @@ class Character extends MoveableObject {
 
 
   canSwimRightUp() {
-    return this.world.keyboard.RIGHTUP && this.y > 0 - this.offset.top && this.x < this.world.canvas.width * 6 - this.width;
+    return this.world.keyboard.RIGHTUP && this.y > 0 - 70 && this.x < this.world.canvas.width * 6 - this.width;
   }
 
 
@@ -113,7 +113,7 @@ class Character extends MoveableObject {
 
 
   canSwimLeftUp() {
-    return this.world.keyboard.LEFTUP && this.y > 0 - this.offset.top && this.x > 0;
+    return this.world.keyboard.LEFTUP && this.y > 0 - 70 && this.x > 0;
   }
 
 
@@ -159,7 +159,7 @@ class Character extends MoveableObject {
 
 
   canSwimUp() {
-    return this.world.keyboard.UP && this.y > 0 - this.offset.top;
+    return this.world.keyboard.UP && this.y > 0 - 70;
   }
 
 

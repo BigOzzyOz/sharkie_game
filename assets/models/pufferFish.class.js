@@ -81,6 +81,7 @@ class Pufferfish extends MoveableObject {
 
 
   animateDeath() {
+    if (!this.dead) this.giveReward();
     this.life = 0;
     this.isBubbledUp() ? this.y -= 15 : this.y += 15;
     this.isBubbledUp() ? this.x -= 15 : this.x += 15;

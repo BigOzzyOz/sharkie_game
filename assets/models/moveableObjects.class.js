@@ -12,6 +12,7 @@ class MoveableObject extends DrawableObjects {
   lastHit;
   applyGravity;
   animateId;
+  dead = false;
 
 
   constructor() {
@@ -98,5 +99,11 @@ class MoveableObject extends DrawableObjects {
     } else {
       return this.y < 0 - this.height || this.y > this.world.canvas.height;
     }
+  }
+
+  giveReward() {
+    let reward = new CollectableObject('coin', this.x + this.width / 2 - 15, this.y + this.height / 2 - 15);
+    world.level.collectables.push(reward);
+    this.dead = true;
   }
 }
