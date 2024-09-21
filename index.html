@@ -27,15 +27,57 @@
   <script src="script/game.js"></script>
 </head>
 
-<body onload="init()">
+<body onload="">
 
   <h1>Sharkie</h1>
+  <main>
+    <canvas id="canvas" width="720" height="480">
+    </canvas>
+    <div id="start">
+      <ul>
+        <li class="line"><a href="#" onclick="init()">Start</a></li>
+        <li class="line"><a href="#" onclick="showMenu()">Options</a></li>
+        <li class="line"><a href="#" onclick="showManual()">Manual</a></li>
+        <li class="line"><a href="#" onclick="showCredits()">Credits</a></li>
+      </ul>
+      <div>
+        <div class="half-circle">
+          <div class="content">
+            <h2>Sharkie</h2>
+            <p>A little game about a shark.</p>
+          </div>
+        </div>
+        <img src="assets/img/1.Sharkie/1.IDLE/Prewiew.gif" alt="Sharkie-gif">
+      </div>
+    </div>
+    <div id="menu" class="d-none">
 
-  <canvas id="canvas" width="720" height="480">
+    </div>
+    <div id="manual" class="d-none">
 
+    </div>
+    <div id="credits" class="d-none">
+      <h2>Credits</h2>
+      <p><strong>Game Development:</strong><br><a href="https://github.com/BigOzzyOz" target="_blank">Jan Holtschke</a>
+      </p>
+      <p><strong>Project:</strong><br>Created as part of the <a href="https://developerakademie.com/"
+          target="_blank">Developer Akademie</a> professional development
+        program.</p>
+      <p><strong>Graphics and Assets:</strong><br>Provided by <a href="https://developerakademie.com/"
+          target="_blank">Developer Akademie</a>.</p>
+      <p><strong>Sound Effects:</strong><br>Sourced from <a href="https://freesound.org/"
+          target="_blank">freesound.org</a></p>
+      <p><strong>Special Thanks:</strong><br>To all mentors from <a href="https://developerakademie.com/"
+          target="_blank">Developer Akademie</a> for their support and
+        guidance.</p>
+    </div>
+    <div id="overlay" class="d-none">
 
-  </canvas>
+    </div>
+    <div id="mobileOverlay" class="d-none">
 
+    </div>
+  </main>
 
 </body>
 

@@ -3,6 +3,7 @@ let keyPressed = {};
 let keyboard = new Keyboard();
 
 function init() {
+  document.getElementById('start').classList.add('d-none');
   canvas = document.getElementById('canvas');
   world = new World(canvas, keyboard);
 }
