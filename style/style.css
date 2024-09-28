@@ -54,6 +54,11 @@ main>div {
   transform: translateX(110%);
 }
 
+
+.op0 {
+  opacity: 0;
+}
+
 .close {
   position: absolute;
   margin: 0;
@@ -336,6 +341,63 @@ img.key {
   background-size: 20px 100%;
   background-repeat: repeat-x;
   animation: l7 1s infinite linear;
+}
+
+.endGame {
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  transition: all 125ms ease-in-out;
+}
+
+.endGame img {
+  width: 75%;
+  height: auto;
+}
+
+.endGame p {
+  color: rgb(251, 255, 0);
+  font-size: 40px;
+  text-align: center;
+}
+
+.endGame>div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  height: 33%;
+  width: 100%;
+}
+
+.endGame button {
+  font-family: inherit;
+  background-color: rgb(251, 255, 0);
+  color: rgb(255, 99, 71);
+  width: 33%;
+  height: 50%;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 32px;
+  cursor: pointer;
+}
+
+
+.endGame button:hover {
+  background-color: rgb(255, 99, 71);
+  color: rgb(251, 255, 0);
 }
 
 @keyframes l7 {

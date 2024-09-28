@@ -93,7 +93,10 @@ class Boss extends MoveableObject {
       }
     }
     this.setMoveSet(this.moveSetDead);
-    if (this.currentImage === this.moveSetDead.length) this.currentImage = this.moveSetDead.length - 1;
+    if (this.currentImage === this.moveSetDead.length) {
+      this.currentImage = this.moveSetDead.length - 1;
+      document.getElementById('winScreen').classList.remove('op0', 'd-none');
+    }
   }
 
 

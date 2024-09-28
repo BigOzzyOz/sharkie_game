@@ -1,5 +1,5 @@
 class World {
-  level = level1;
+  level = initializeLevel1();
   character = new Character();
   bubbles = [];
   backgroundImage = [];
@@ -7,6 +7,7 @@ class World {
   ctx;
   keyboard;
   camera_x = 0;
+  drawRequest;
   statusBarLife = new Statusbar(15, 0, 200, 0);
   statusBarPoison = new Statusbar(200, 0, 60, 1);
   statusBarCoin = new Statusbar(560, 10, 60, 2);
@@ -50,6 +51,7 @@ class World {
 
 
   checkCollision() {
+    if (!this.character.isAlive()) return;
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy)) {
         this.character.isHit(enemy);
@@ -87,9 +89,7 @@ class World {
 
 
     let self = this;
-    requestAnimationFrame(function () {
-      self.draw();
-    });
+    this.drawRequest = requestAnimationFrame(() => self.draw());
   };
 
 
@@ -107,4 +107,23 @@ class World {
   };
 
 
+  reset() {
+    clearAllIntervals();
+    window.cancelAnimationFrame(this.drawRequest);
+    this.level = initializeLevel1();
+    init();
+    document.getElementById('loseScreen').classList.add('op0', 'd-none');
+    document.getElementById('winScreen').classList.add('op0', 'd-none');
+  }
+
+
+  endGame() {
+    clearAllIntervals();
+    window.cancelAnimationFrame(this.drawRequest);
+    this.level = initializeLevel1();
+    document.getElementById('start').classList.toggle('d-none');
+    document.getElementById('loseScreen').classList.add('op0', 'd-none');
+    document.getElementById('winScreen').classList.add('op0', 'd-none');
+    document.getElementById('overlay').classList.add('d-none');
+  }
 }

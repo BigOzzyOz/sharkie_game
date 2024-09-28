@@ -315,7 +315,10 @@ class Character extends MoveableObject {
   animateDeathAnimation(set) {
     this.currentImage = !this.currentMoveSet.includes(set[0]) ? 0 : this.currentImage;
     this.setAnimation(set);
-    if (this.currentImage === set.length) this.currentImage = set.length - 1;
+    if (this.currentImage === set.length) {
+      this.currentImage = set.length - 1;
+      document.getElementById('loseScreen').classList.remove('op0', 'd-none');
+    }
   }
 
 

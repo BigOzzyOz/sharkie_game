@@ -7,7 +7,10 @@ function init() {
   document.getElementById('start').classList.add('d-none');
   canvas = document.getElementById('canvas');
   world = new World(canvas, keyboard);
-  setTimeout(() => document.getElementById('loaderWindow').classList.toggle('d-none'), 1000);
+  setTimeout(() => {
+    document.getElementById('loaderWindow').classList.toggle('d-none');
+    document.getElementById('overlay').classList.remove('d-none');
+  }, 1000);
 }
 
 window.addEventListener('keydown', (e) => {

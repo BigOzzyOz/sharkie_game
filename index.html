@@ -118,11 +118,26 @@
       </div>
     </div>
     <div id="overlay" class="d-none">
+      <div id="winScreen" class="op0 endGame d-none">
+        <img src="assets/img/6.Botones/Tittles/You win/Recurso 22.png" alt="">
+        <p>You won the game!</p>
+        <div>
+          <button onclick="world.endGame()">Main Menu</button>
+          <button onclick="world.reset()">Play Again</button>
+        </div>
 
-    </div>
-    <div id="mobileOverlay" class="d-none">
+      </div>
+      <div id="loseScreen" class="op0 endGame d-none">
+        <img src="assets/img/6.Botones/Tittles/Game Over/Recurso 9.png" alt="">
+        <p>You lost the game.</p>
+        <div>
+          <button onclick="world.endGame()">Main Menu</button>
+          <button onclick="world.reset()">Play Again</button>
+        </div>
+      </div>
+      <div id="mobileOverlay" class="d-none">
 
-    </div>
+      </div>
   </main>
 
 </body>
