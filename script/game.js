@@ -3,9 +3,11 @@ let keyPressed = {};
 let keyboard = new Keyboard();
 
 function init() {
+  document.getElementById('loaderWindow').classList.toggle('d-none');
   document.getElementById('start').classList.add('d-none');
   canvas = document.getElementById('canvas');
   world = new World(canvas, keyboard);
+  setTimeout(() => document.getElementById('loaderWindow').classList.toggle('d-none'), 1000);
 }
 
 window.addEventListener('keydown', (e) => {
@@ -43,3 +45,12 @@ window.addEventListener('keyup', (e) => {
 function clearAllIntervals() {
   for (let i = 1; i < 9999; i++) window.clearInterval(i);
 };
+
+function toggleTranslate(id, className) {
+  document.getElementById(id).classList.toggle(className);
+}
+
+function setVolume(id) {
+  let volume = document.getElementById(id).value;
+  document.getElementById('audio').volume = volume;
+}

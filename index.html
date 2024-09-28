@@ -33,12 +33,18 @@
   <main>
     <canvas id="canvas" width="720" height="480">
     </canvas>
+    <div id="loaderWindow" class="d-none">
+      <div id="loader"></div>
+    </div>
     <div id="start">
       <ul>
-        <li class="line"><a href="#" onclick="init()">Start</a></li>
-        <li class="line"><a href="#" onclick="showMenu()">Options</a></li>
-        <li class="line"><a href="#" onclick="showManual()">Manual</a></li>
-        <li class="line"><a href="#" onclick="showCredits()">Credits</a></li>
+        <li class="line"><a onclick="init()">Start</a></li>
+        <li class="line"><a onclick="toggleTranslate('options', 'tt1'); toggleTranslate('start', 'tt-1')">Options</a>
+        </li>
+        <li class="line"><a onclick="toggleTranslate('manual', 'tt1'); toggleTranslate('start', 'tt-1')">Manual</a>
+        </li>
+        <li class="line"><a onclick="toggleTranslate('credits', 'tt1'); toggleTranslate('start', 'tt-1')">Credits</a>
+        </li>
       </ul>
       <div>
         <div class="half-circle">
@@ -50,26 +56,66 @@
         <img src="assets/img/1.Sharkie/1.IDLE/Prewiew.gif" alt="Sharkie-gif">
       </div>
     </div>
-    <div id="menu" class="d-none">
-
+    <div id="options" class="tt1">
+      <div class="optionsWindow">
+        <h2>Options</h2>
+        <div>
+          <label for="sound"><strong>Sound:</strong><input type="range" id="sound" name="sound" min="0" max="1"
+              step="0.01" value="0.5" onchange="setVolume('sound')"></label>
+          <label for="music"><strong>Music:</strong><input type="range" id="music" name="music" min="0" max="1"
+              step="0.01" value="0.5" onchange="setVolume('music')"></label>
+        </div>
+        <div></div>
+        <h3 class="close" onclick="toggleTranslate('options', 'tt1'); toggleTranslate('start', 'tt-1')">X</h3>
+      </div>
     </div>
-    <div id="manual" class="d-none">
-
+    <div id="manual" class="tt1">
+      <div class="manualWindow">
+        <h2>Manual</h2>
+        <p class="manualstep">
+          <span>
+            <strong>Movement</strong><br>Use the <img src="assets/img/6.Botones/Key/arrow keys.png" alt="" class="key">
+            keys for movement.
+          </span>
+          <span style="width: 90px; height: 70px;"> </span>
+        </p>
+        <p class="manualstep">
+          <span>
+            <strong>Fin slap</strong><br>Use <img src="assets/img/6.Botones/Key/Space Bar key.png" alt="" class="key">
+            for a fin slap. Only stunned pufferfish are effected from a fin slap.
+          </span>
+          <img src="assets/img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/Dead 1 proposal.gif" alt="">
+        </p>
+        <p class="manualstep">
+          <span>
+            <strong>Bubble attack</strong><br>Use <img src="assets/img/6.Botones/Key/D key.png" alt="" class="key"> key
+            for a bubble attack. Stuns pufferfish, kills
+            jellyfish and damage the boss with poison. When you are out of poison, it still attack the boss with less
+            damage.
+          </span>
+          <img src="assets/img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/Preview.gif" alt="">
+        </p>
+        <h3 class="close" onclick="toggleTranslate('manual', 'tt1'); toggleTranslate('start', 'tt-1')">X</h3>
+      </div>
     </div>
-    <div id="credits" class="d-none">
-      <h2>Credits</h2>
-      <p><strong>Game Development:</strong><br><a href="https://github.com/BigOzzyOz" target="_blank">Jan Holtschke</a>
-      </p>
-      <p><strong>Project:</strong><br>Created as part of the <a href="https://developerakademie.com/"
-          target="_blank">Developer Akademie</a> professional development
-        program.</p>
-      <p><strong>Graphics and Assets:</strong><br>Provided by <a href="https://developerakademie.com/"
-          target="_blank">Developer Akademie</a>.</p>
-      <p><strong>Sound Effects:</strong><br>Sourced from <a href="https://freesound.org/"
-          target="_blank">freesound.org</a></p>
-      <p><strong>Special Thanks:</strong><br>To all mentors from <a href="https://developerakademie.com/"
-          target="_blank">Developer Akademie</a> for their support and
-        guidance.</p>
+    <div id="credits" class="tt1">
+      <div class="creditsWindow">
+        <h2>Credits</h2>
+        <p><strong>Game Development:</strong><br><a href="https://github.com/BigOzzyOz" target="_blank">Jan
+            Holtschke</a>
+        </p>
+        <p><strong>Project:</strong><br>Created as part of the <a href="https://developerakademie.com/"
+            target="_blank">Developer Akademie</a> professional development
+          program.</p>
+        <p><strong>Graphics and Assets:</strong><br>Provided by <a href="https://developerakademie.com/"
+            target="_blank">Developer Akademie</a>.</p>
+        <p><strong>Sound Effects:</strong><br>Sourced from <a href="https://freesound.org/"
+            target="_blank">freesound.org</a></p>
+        <p><strong>Special Thanks:</strong><br>To all mentors from <a href="https://developerakademie.com/"
+            target="_blank">Developer Akademie</a> for their support and
+          guidance.</p>
+        <h3 class="close" onclick="toggleTranslate('credits', 'tt1'); toggleTranslate('start', 'tt-1')">X</h3>
+      </div>
     </div>
     <div id="overlay" class="d-none">
 
