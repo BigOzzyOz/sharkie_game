@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html translate="no" lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -30,7 +30,7 @@
 <body onload="">
 
   <h1>Sharkie</h1>
-  <main>
+  <main id="main">
     <canvas id="canvas" width="720" height="480">
     </canvas>
     <div id="loaderWindow" class="d-none">
@@ -118,6 +118,9 @@
       </div>
     </div>
     <div id="overlay" class="d-none">
+      <div id="gameOverlay" class="">
+        <img class="options" src="assets/icons/iconmonstr-gear-3.svg" alt="" onclick="gamePause(true)">
+      </div>
       <div id="winScreen" class="op0 endGame d-none">
         <img src="assets/img/6.Botones/Tittles/You win/Recurso 22.png" alt="">
         <p>You won the game!</p>
@@ -125,7 +128,6 @@
           <button onclick="world.endGame()">Main Menu</button>
           <button onclick="world.reset()">Play Again</button>
         </div>
-
       </div>
       <div id="loseScreen" class="op0 endGame d-none">
         <img src="assets/img/6.Botones/Tittles/Game Over/Recurso 9.png" alt="">
@@ -134,6 +136,16 @@
           <button onclick="world.endGame()">Main Menu</button>
           <button onclick="world.reset()">Play Again</button>
         </div>
+      </div>
+      <div id="pauseMenu" class="d-none">
+        <ul>
+          <li class="line"><a onclick="gamePause(true)">Continue</a></li>
+          <li class="line"><a onclick="toggleTranslate('options', 'tt1'); toggleTranslate('start', 'tt-1')">Options</a>
+          </li>
+          <li class="line"><a onclick="toggleTranslate('manual', 'tt1'); toggleTranslate('start', 'tt-1')">Manual</a>
+          </li>
+          <li class="line"><a onclick="world.endGame()">Menu</a></li>
+        </ul>
       </div>
       <div id="mobileOverlay" class="d-none">
 

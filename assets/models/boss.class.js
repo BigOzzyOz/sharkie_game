@@ -35,7 +35,7 @@ class Boss extends MoveableObject {
 
 
   update() {
-    if (!this.world) return;
+    if (!this.world || this.world.isPaused) return;
     if (this.isDead()) this.animateDeath();
     else if (this.bossIntroPlayed()) this.animateIntro();
     else if (this.isHit) this.animateHit();

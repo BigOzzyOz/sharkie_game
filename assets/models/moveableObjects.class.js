@@ -22,6 +22,7 @@ class MoveableObject extends DrawableObjects {
   startGravity() {
     if (this.isAboveGround()) {
       this.applyGravity = setInterval(() => {
+        if (!world || world.isPaused) return;
         if (this.isAboveGround()) {
           this.y += this.speedDown;
           this.speedDown += this.acceleration;

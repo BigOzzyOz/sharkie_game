@@ -31,6 +31,7 @@ class Jellyfish extends MoveableObject {
 
 
   update() {
+    if (!this.world || this.world.isPaused) return;
     if (this.isDead()) this.death();
     else if (this.y < this.floatHeight) this.sinkingStart();
     else if (this.direction === 'sinking') this.sinkingEnd();

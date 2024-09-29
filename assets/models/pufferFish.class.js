@@ -32,6 +32,7 @@ class Pufferfish extends MoveableObject {
 
 
   update() {
+    if (!this.world || this.world.isPaused) return;
     if (this.isDead()) this.animateDeath();
     else if (this.characterNear()) this.animateBubbleUp();
     else if (this.characterFar()) this.animateBubbleDown();

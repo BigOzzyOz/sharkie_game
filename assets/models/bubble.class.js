@@ -25,6 +25,7 @@ class Bubble extends MoveableObject {
 
 
   update() {
+    if (!world || world.isPaused) return;
     if (this.bubbleLeft) this.x -= 8;
     else this.x += 8;
     this.width = this.width === 40 ? 38 : 40;

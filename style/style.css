@@ -115,7 +115,8 @@ main>div {
   background-image: url('../assets/img/3. Background/Layers/1. Light/1.png'), url('../assets/img/3. Background/Layers/2. Floor/L1.png'), url('../assets/img/3. Background/Layers/3.Fondo 1/L1.png'), url('../assets/img/3. Background/Layers/4.Fondo 2/L1.png'), url('../assets/img/3. Background/Layers/5. Water/L1.png');
 }
 
-#start>ul {
+#start>ul,
+#pauseMenu>ul {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -127,7 +128,8 @@ main>div {
   background-color: rgba(19, 0, 192, 0.8);
 }
 
-#start>ul>li {
+#start>ul>li,
+#pauseMenu>ul>li {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -135,7 +137,8 @@ main>div {
   flex: 1;
 }
 
-#start>ul>li>a {
+#start>ul>li>a,
+#pauseMenu>ul>li>a {
   font-size: 32px;
   color: rgb(251, 255, 0);
   text-shadow: 0px 0px 32px rgb(255, 99, 71);
@@ -144,6 +147,7 @@ main>div {
 }
 
 #start>ul>li:hover>a,
+#pauseMenu>ul>li:hover>a,
 #credits a:hover {
   color: rgb(33, 255, 118);
   text-shadow: 0px 0px 64px rgb(255, 99, 71);
@@ -207,6 +211,7 @@ main>div {
 .creditsWindow,
 .manualWindow,
 .optionsWindow {
+  z-index: 3;
   position: relative;
   margin: 20px;
   width: 100%;
@@ -343,8 +348,9 @@ img.key {
   animation: l7 1s infinite linear;
 }
 
-.endGame {
-  z-index: 10;
+.endGame,
+#pauseMenu {
+  z-index: 2;
   position: absolute;
   top: 0;
   left: 0;
@@ -398,6 +404,28 @@ img.key {
 .endGame button:hover {
   background-color: rgb(255, 99, 71);
   color: rgb(251, 255, 0);
+}
+
+
+#gameOverlay {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  width: 160px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+#gameOverlay img {
+  height: 32px;
+  width: auto;
+  cursor: pointer;
+}
+
+
+#gameOverlay img:hover {
+  filter: drop-shadow(16px 16px 20px rgb(255, 99, 71)) hue-rotate(310deg);
 }
 
 @keyframes l7 {

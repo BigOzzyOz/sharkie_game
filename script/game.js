@@ -10,7 +10,7 @@ function init() {
   setTimeout(() => {
     document.getElementById('loaderWindow').classList.toggle('d-none');
     document.getElementById('overlay').classList.remove('d-none');
-  }, 1000);
+  }, 2500);
 }
 
 window.addEventListener('keydown', (e) => {
@@ -42,7 +42,6 @@ window.addEventListener('keyup', (e) => {
   keyboard.RIGHT = e.key === 'ArrowRight' ? false : keyPressed['ArrowRight'] ? true : false;
   keyboard.UP = e.key === 'ArrowUp' ? false : keyPressed['ArrowUp'] ? true : false;
   keyboard.DOWN = e.key === 'ArrowDown' ? false : keyPressed['ArrowDown'] ? true : false;
-  keyboard.ESC = e.key === 'Escape' ? false : false;
 });
 
 function clearAllIntervals() {
@@ -56,4 +55,17 @@ function toggleTranslate(id, className) {
 function setVolume(id) {
   let volume = document.getElementById(id).value;
   document.getElementById('audio').volume = volume;
+}
+
+
+function gamePause(click = false) {
+  if ((keyboard.ESC && world.isPaused) || (click && world.isPaused)) {
+    document.getElementById('pauseMenu').classList.toggle('d-none');;
+    world.isPaused = false;
+    world.draw();
+  } else if ((keyboard.ESC && !world.isPaused) || (click && !world.isPaused)) {
+    document.getElementById('pauseMenu').classList.toggle('d-none');;
+    world.isPaused = true;
+  }
+  keyboard.ESC = false;
 }

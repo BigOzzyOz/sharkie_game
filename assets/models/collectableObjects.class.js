@@ -31,6 +31,7 @@ class CollectableObject extends MoveableObject {
   }
 
   update() {
+    if (!world || world.isPaused) return;
     this.setAnimation(this.currentMoveSet);
   }
 

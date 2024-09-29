@@ -11,6 +11,7 @@ class World {
   statusBarLife = new Statusbar(15, 0, 200, 0);
   statusBarPoison = new Statusbar(200, 0, 60, 1);
   statusBarCoin = new Statusbar(560, 10, 60, 2);
+  isPaused = false;
 
 
   constructor(canvas, keyboard) {
@@ -44,6 +45,8 @@ class World {
 
   updateGame() {
     setInterval(() => {
+      gamePause();
+      if (this.isPaused) return;
       this.checkCollision();
       this.statusBarLife.updateLife(this.character.life);
     }, 100);
@@ -89,7 +92,10 @@ class World {
 
 
     let self = this;
-    this.drawRequest = requestAnimationFrame(() => self.draw());
+    this.drawRequest = requestAnimationFrame(() => {
+      if (self.isPaused) return;
+      else self.draw();
+    });
   };
 
 
@@ -125,5 +131,6 @@ class World {
     document.getElementById('loseScreen').classList.add('op0', 'd-none');
     document.getElementById('winScreen').classList.add('op0', 'd-none');
     document.getElementById('overlay').classList.add('d-none');
+    document.getElementById('pauseMenu').classList.add('d-none');
   }
 }

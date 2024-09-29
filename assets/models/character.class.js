@@ -58,6 +58,7 @@ class Character extends MoveableObject {
 
   playAnimation() {
     this.swim_sound.pause();
+    if (!this.world || this.world.isPaused) return;
     if (!this.isAlive()) this.animateDeath();
     else if (this.isHurt()) this.animateHit();
     else if (this.attackPressed()) this.world.keyboard.SPACE ? this.animateSlap() : this.animateBubbleThrow();
@@ -68,6 +69,7 @@ class Character extends MoveableObject {
 
 
   move() {
+    if (!this.world || this.world.isPaused) return;
     this.moveCamera();
     if (this.canSwimRightUp()) this.swimRightUp();
     else if (this.canSwimRightDown()) this.swimRightDown();
