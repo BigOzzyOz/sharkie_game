@@ -93,9 +93,12 @@ class Boss extends MoveableObject {
       }
     }
     this.setMoveSet(this.moveSetDead);
+    this.currentImage === 1 ? soundEffects[0].boss_death.play() : '';
     if (this.currentImage === this.moveSetDead.length) {
       this.currentImage = this.moveSetDead.length - 1;
       document.getElementById('winScreen').classList.remove('op0', 'd-none');
+      music[0].game.pause();
+      music[0].win.play();
     }
   }
 
@@ -103,6 +106,8 @@ class Boss extends MoveableObject {
   animateIntro() {
     this.x = this.startPoint - 300;
     this.setMoveSet(this.moveSetIntro);
+    soundEffects[0].boss_insight.volume = 0.25;
+    this.currentImage === 1 ? soundEffects[0].boss_insight.play() : '';
     if (this.currentImage === this.moveSetIntro.length) this.world.character.bossInsight = true;
   }
 
@@ -120,7 +125,7 @@ class Boss extends MoveableObject {
 
   animateHit() {
     this.setMoveSet(this.moveSetHurt);
-    if (this.currentImage === this.moveSetHurt.length * 3) this.isHit = false;
+    if (this.currentImage === this.moveSetHurt.length % 12) this.isHit = false;
   }
 
 

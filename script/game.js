@@ -50,11 +50,18 @@ function clearAllIntervals() {
 
 function toggleTranslate(id, className) {
   document.getElementById(id).classList.toggle(className);
+  soundEffects[0].next.play();
 }
 
 function setVolume(id) {
-  let volume = document.getElementById(id).value;
-  document.getElementById('audio').volume = volume;
+  let vol = document.getElementById(id).value;
+  id === 'sound' ? soundEffects.forEach(effect => Object.values(effect).forEach(audio => audio.volume = vol)) : music.forEach(song => Object.values(song).forEach(audio => audio.volume = vol));
+}
+
+
+function playSound(soundEffect) {
+  soundEffect.currentTime = 0;
+  soundEffect.play();
 }
 
 
@@ -68,4 +75,4 @@ function gamePause(click = false) {
     world.isPaused = true;
   }
   keyboard.ESC = false;
-}
+};

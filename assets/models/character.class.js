@@ -2,7 +2,6 @@ class Character extends MoveableObject {
   height = 200;
   width = 200;
   idleCounter = 0;
-  swim_sound = new Audio('assets/audio/swim.mp3');
   lastEnemy;
   bossInsight = false;
 
@@ -29,9 +28,6 @@ class Character extends MoveableObject {
     this.currentMoveSet = this.moveSetSwim;
     this.loadAllImages();
     this.img = this.imageCache[this.currentMoveSet[0]];
-    this.muteSwimSound();
-    document.addEventListener('click', () => this.unmuteSound());
-    document.addEventListener('keydown', () => this.unmuteSound());
     this.animate();
   }
 
@@ -57,7 +53,6 @@ class Character extends MoveableObject {
 
 
   playAnimation() {
-    this.swim_sound.pause();
     if (!this.world || this.world.isPaused) return;
     if (!this.isAlive()) this.animateDeath();
     else if (this.isHurt()) this.animateHit();
@@ -220,19 +215,10 @@ class Character extends MoveableObject {
   }
 
 
-  playSwim() {
-    if (this.swim_sound.paused) {
-      this.swim_sound.play().catch(error => {
-        console.log("Error playing sound:", error);
-      });
-    }
-  }
-
-
   animateSwim() {
     this.setAnimation(this.moveSetSwim);
     this.stopGravity();
-    this.playSwim();
+    soundEffects[0].swim.paused ? playSound(soundEffects[0].swim) : '';
     this.idleCounter = 0;
   }
 
@@ -264,7 +250,7 @@ class Character extends MoveableObject {
   animateAttack(set) {
     this.currentImage = !this.currentMoveSet.includes(set[0]) ? 0 : this.currentImage;
     this.setAnimation(set);
-    this.executeFinSlap();
+    this.executeFinSlap(set);
     if (this.currentImage === set.length) {
       this.executeBubble();
       this.resetToOrigin();
@@ -272,7 +258,7 @@ class Character extends MoveableObject {
   }
 
 
-  executeFinSlap() {
+  executeFinSlap(set) {
     if (this.world.keyboard.SPACE) {
       this.offset.right = this.turnAround ? 45 : 15;
       this.offset.left = this.turnAround ? 15 : 45;
@@ -299,7 +285,9 @@ class Character extends MoveableObject {
 
 
   animateHit() {
+    let timePassed = new Date().getTime() - this.lastHit;
     this.checkLastEnemy() ? this.setAnimation(this.moveSetHurtSchock) : this.setAnimation(this.moveSetHurtPoison);
+    timePassed < 150 ? this.checkLastEnemy() ? playSound(soundEffects[0].electrify) : playSound(soundEffects[0].hit) : '';
   }
 
 
@@ -311,6 +299,7 @@ class Character extends MoveableObject {
       this.animateDeathAnimation(this.moveSetDeathPoison);
       this.y -= this.y > 0 ? 0.5 : 0;
     }
+    this.currentImage === 1 ? soundEffects[0].death.play() : '';
   }
 
 
@@ -320,28 +309,14 @@ class Character extends MoveableObject {
     if (this.currentImage === set.length) {
       this.currentImage = set.length - 1;
       document.getElementById('loseScreen').classList.remove('op0', 'd-none');
+      music[0].game.pause();
+      music[0].lose.play();
     }
   }
 
 
   checkLastEnemy() {
     return this.lastEnemy.variantJellyfish === 3 || this.lastEnemy.variantJellyfish === 4;
-  }
-
-
-  muteSwimSound() {
-    this.swim_sound.muted = true;
-    this.swim_sound.loop = true;
-    this.swim_sound.play().catch(() => {
-      console.log("Autoplay was prevented, sound will be unmuted on user interaction.");
-    });
-  }
-
-
-  unmuteSound() {
-    this.swim_sound.muted = false;
-    document.removeEventListener('click', this.unmuteSound);
-    document.removeEventListener('keydown', this.unmuteSound);
   }
 
 

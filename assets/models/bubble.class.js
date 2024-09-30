@@ -21,6 +21,7 @@ class Bubble extends MoveableObject {
     } else this.loadImage('assets/img/1.Sharkie/4.Attack/Bubble trap/Bubble.png');
     this.startGravity();
     this.animateId = setInterval(() => this.update(), 100);
+    playSound(soundEffects[0].bubble);
   }
 
 
@@ -50,6 +51,7 @@ class Bubble extends MoveableObject {
       enemy.lastHit = new Date().getTime();
       enemy.isStunned = true;
     }
+    soundEffects[0].bubblePop.play();
     this.destroyBubble();
   }
 

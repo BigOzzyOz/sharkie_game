@@ -43,10 +43,12 @@ class CollectableObject extends MoveableObject {
       } else {
         world.statusBarPoison.poisonCounter++;
         this.destroy(world.level.collectables, this);
+        playSound(soundEffects[0].poison);
       }
     } else if (this.variant === 'coin') {
       world.statusBarCoin.coinCounter++;
       this.destroy(world.level.collectables, this);
+      playSound(soundEffects[0].coin);
     }
   }
 }
