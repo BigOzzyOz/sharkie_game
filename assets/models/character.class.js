@@ -105,7 +105,8 @@ class Character extends MoveableObject {
    * @private
    */
   moveCamera() {
-    this.world.camera_x = this.world.character.turnAround ? -this.x + this.world.canvas.width - this.world.character.width - 25 : -this.x + 25;
+    this.world.camera_x = -this.x + this.world.canvas.width / 2 - this.width / 2;
+    // this.world.camera_x = this.world.character.turnAround ? -this.x + this.world.canvas.width / 2 - this.world.character.width - 75 : -this.x + 25;
     this.world.statusBarLife.x = -this.world.camera_x + 15;
     this.world.statusBarPoison.x = -this.world.camera_x + 200;
     this.world.statusBarCoin.x = -this.world.camera_x + 560;

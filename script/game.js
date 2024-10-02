@@ -62,6 +62,7 @@ window.addEventListener('keyup', (e) => {
 });
 
 
+document.addEventListener('contextmenu', e => e.preventDefault());
 /**
  * Clears all currently set intervals.
  * @function

@@ -44,6 +44,26 @@ main>div {
   transition: all 125ms ease-in-out;
 }
 
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #fbff00 #ffffff;
+}
+
+
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #fbff00;
+  border-radius: 14px;
+  border: 3px outset #ff6347;
+}
+
 .d-none {
   display: none !important;
 }
@@ -61,23 +81,6 @@ main>div {
   opacity: 0;
 }
 
-.close {
-  position: absolute;
-  margin: 0;
-  top: 8px;
-  right: 8px;
-  width: 48px;
-  height: 48px;
-  cursor: pointer;
-  color: rgb(251, 255, 0);
-  font-size: 64px;
-  line-height: normal;
-}
-
-.close:hover {
-  text-shadow: 0px 0px 32px rgb(255, 99, 71);
-}
-
 .line {
   color: rgb(255, 99, 71);
   cursor: pointer;
@@ -89,7 +92,7 @@ main>div {
   position: absolute;
   width: 95%;
   height: 5px;
-  bottom: 24px;
+  bottom: 20%;
   left: 4px;
   transform: scaleX(0);
   box-shadow:
@@ -108,7 +111,9 @@ main>div {
 #start,
 #credits,
 #manual,
-#options {
+#options,
+#imprint {
+  height: 100%;
   width: 100%;
   display: flex;
   background-size: cover;
@@ -150,8 +155,9 @@ main>div {
 
 #start>ul>li:hover>a,
 #pauseMenu>ul>li:hover>a,
-#credits a:hover {
-  color: rgb(33, 255, 118);
+#credits a:hover,
+#imprint a:hover {
+  color: #21ff76;
   text-shadow: 0px 0px 64px rgb(255, 99, 71);
 }
 
@@ -173,20 +179,33 @@ main>div {
 #start>div h2,
 #credits h2,
 #manual h2,
-#options h2 {
-  font-size: 56px;
+#options h2,
+#imprint h2 {
+  font-size: 6vmin;
   margin: 0;
   color: rgb(251, 255, 0);
   text-shadow: 0px 0px 32px rgb(255, 99, 71);
   line-height: normal;
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 0.5vh;
+}
+
+#imprint h3:not(.close) {
+  font-size: 3vmax;
+  color: rgb(251, 255, 0);
+  text-shadow: 0px 0px 32px rgb(255, 99, 71);
+  line-height: normal;
+  text-align: center;
+  margin-bottom: 0.5vh;
+  margin-top: 0.5vh;
+  text-wrap: wrap;
 }
 
 #start>div p,
 #credits p,
 #manual p,
-#options p #options label {
+#options p #options label,
+#imprint p {
   margin: 0;
   font-size: 18px;
   color: rgb(255, 99, 71);
@@ -212,19 +231,20 @@ main>div {
 
 .creditsWindow,
 .manualWindow,
-.optionsWindow {
+.optionsWindow,
+.imprintWindow {
   z-index: 3;
   position: relative;
-  margin: 20px;
-  width: 100%;
-  height: auto;
+  margin: 2%;
+  padding: 1%;
+  flex: 1;
   background-color: rgba(19, 0, 192, 0.9);
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   border-radius: 24px;
   border: 8px outset rgb(19, 0, 192);
+  overflow: hidden auto;
 }
 
 .manualWindow {
@@ -236,7 +256,10 @@ main>div {
 .creditsWindow a,
 #manual .manualWindow p,
 #options .optionsWindow p,
-#options .optionsWindow label {
+#options .optionsWindow label,
+.turnDevice p,
+.imprintWindow a,
+.imprintWindow p {
   color: rgb(251, 255, 0);
   text-decoration: none;
   font-size: 16px;
@@ -437,19 +460,17 @@ img.key {
 
 #mobileOverlay {
   position: absolute;
-  width: 45%;
-  height: 25%;
+  width: 90%;
+  height: 30%;
   bottom: 8px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 28% 7% 14% 14% 7% 28%;
-  grid-template-rows: 28% 7% 28% 7% 28%;
+  grid-template-columns: 12% 12% 12% 30% 15% 15%;
+  grid-template-rows: 45% 5% 45%;
   grid-template-areas:
-    "leftup up up up up rightup"
-    "left a a b b right"
-    "left a a b b right"
-    "left a a b b right"
-    "leftdown down down down down rightdown";
+    ". up . . a b"
+    ". . . . a b"
+    "left down right . a b";
   grid-gap: 1%;
   justify-items: center;
   align-items: center;
@@ -512,6 +533,27 @@ img.key {
   display: none;
 }
 
+.turnDevice {
+  display: none;
+}
+
+.close {
+  position: absolute;
+  margin: 0;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  color: rgb(251, 255, 0);
+  font-size: 32px;
+  line-height: normal;
+}
+
+.close:hover {
+  text-shadow: 0px 0px 32px rgb(255, 99, 71);
+}
+
 @keyframes l7 {
   50% {
     background-position: 10px 15px, -10px 12px, 15px 8px
@@ -522,6 +564,15 @@ img.key {
   }
 }
 
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 @media only screen and (max-height: 700px) {
   h1 {
@@ -539,17 +590,48 @@ img.key {
 
 }
 
-
-@media only screen and (max-width: 740px) {
+@media only screen and (max-width: 720px) {
 
   main,
   canvas {
     width: 100%;
     height: auto;
+    border: none;
   }
 
   h1 {
     display: none;
+  }
+}
+
+@media only screen and (max-width: 719px) and (orientation: portrait) {
+  .turnDevice {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(19, 0, 192, 1);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 25;
+  }
+
+  .turnDevice p {
+    font-size: 8vmin;
+    height: 10%;
+    margin: 0;
+    line-height: normal;
+    text-align: center;
+  }
+
+  .turnDevice img {
+    width: 50%;
+    height: auto;
+    animation: rotate 5s linear infinite;
   }
 }
 

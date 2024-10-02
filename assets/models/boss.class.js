@@ -162,7 +162,7 @@ class Boss extends MoveableObject {
   animateIntro() {
     this.x = this.startPoint - 300;
     this.setMoveSet(this.moveSetIntro);
-    soundEffects[0].boss_insight.volume = 0.25;
+    soundEffects[0].boss_insight.volume = 0.25 * document.getElementById('sound').value;
     this.currentImage === 1 ? soundEffects[0].boss_insight.play() : '';
     if (this.currentImage === this.moveSetIntro.length) this.world.character.bossInsight = true;
   }
