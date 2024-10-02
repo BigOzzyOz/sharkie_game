@@ -69,7 +69,7 @@ class Character extends MoveableObject {
     else if (this.isHurt()) this.animateHit();
     else if (this.attackPressed()) this.world.keyboard.SPACE ? this.animateAttack(characterAnimation.moveSetFinSlap) : this.animateBubbleThrow();
     else if (this.arrowPressed()) this.animateSwim();
-    else if (this.idleCounter > 1) this.animateDeepIdle();
+    else if (this.idleCounter > 0.5) this.animateDeepIdle();
     else this.animateIdle();
   }
 
@@ -195,6 +195,7 @@ class Character extends MoveableObject {
    * Also resets the idle counter.
    */
   animateSwim() {
+    soundEffects[0].snore.pause();
     this.setAnimation(characterAnimation.moveSetSwim);
     this.stopGravity();
     soundEffects[0].swim.paused ? playSound(soundEffects[0].swim) : '';
@@ -218,6 +219,7 @@ class Character extends MoveableObject {
     this.setAnimation(characterAnimation.moveSetDeepIdle);
     if (this.currentImage === characterAnimation.moveSetDeepIdle.length) this.currentImage = 10;
     !this.applyGravity ? this.startGravity() : '';
+    soundEffects[0].snore.paused ? playSound(soundEffects[0].snore) : '';
   }
 
 
@@ -227,6 +229,7 @@ class Character extends MoveableObject {
    * Increments the idle counter by 0.008 and sets the animation to the idle set.
    */
   animateIdle() {
+    soundEffects[0].snore.pause();
     this.idleCounter = this.idleCounter + 0.008;
     this.setAnimation(characterAnimation.moveSetIdle);
   }
@@ -253,6 +256,7 @@ class Character extends MoveableObject {
    * @param {Array<String>} set - An array of images representing the bubble animation to be played.
    */
   animateAttack(set) {
+    soundEffects[0].snore.pause();
     this.currentImage = !this.currentMoveSet.includes(set[0]) ? 0 : this.currentImage;
     this.setAnimation(set);
     this.executeFinSlap(set);

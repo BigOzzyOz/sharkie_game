@@ -167,6 +167,7 @@ class World {
     window.cancelAnimationFrame(this.drawRequest);
     this.level = initializeLevel1();
     music.forEach(song => Object.values(song).forEach(song => song.pause()));
+    soundEffects.forEach(song => Object.values(song).forEach(song => song.pause()));
     init();
     document.getElementById('loseScreen').classList.add('op0', 'd-none');
     document.getElementById('winScreen').classList.add('op0', 'd-none');
@@ -189,6 +190,7 @@ class World {
     document.getElementById('winScreen').classList.add('op0', 'd-none');
     document.getElementById('overlay').classList.add('d-none');
     document.getElementById('pauseMenu').classList.add('d-none');
+    soundEffects.forEach(song => Object.values(song).forEach(song => song.pause()));
     music.forEach(song => Object.values(song).forEach(song => song.pause()));
   }
 

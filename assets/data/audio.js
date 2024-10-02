@@ -12,6 +12,7 @@ const soundEffects = [
     boss_death: new Audio('assets/audio/effects/deathBoss.mp3'),
     death: new Audio('assets/audio/effects/death.mp3'),
     next: new Audio('assets/audio/effects/whosh.mp3'),
+    snore: new Audio('assets/audio/effects/snoring.mp3'),
   },
 ];
 
