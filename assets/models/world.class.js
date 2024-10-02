@@ -44,13 +44,11 @@ class World {
   }
 
 
-  /*************  ✨ Codeium Command ⭐  *************/
   /**
    * Sets the background images in the game world.
    * @param {string[]} set - An array of image paths.
    * @param {number} round - The round number to set the background for.
    */
-  /******  a851ee8d-50a3-49f1-b0c2-c2e12b19f0c0  *******/
   setBackground(set, round) {
     for (let i = 0; i < 5; i++) this.backgroundImage.push(new Background(set[i], round * this.canvas.width, this.canvas.width, this.canvas.height));
   }
@@ -155,13 +153,11 @@ class World {
   };
 
 
-  /*************  ✨ Codeium Command ⭐  *************/
   /**
    * Resets the game to its initial state, cancelling all intervals and animation
    * frames, reinitializing the level and restarting the game.
    * @private
    */
-  /******  482a57aa-cae3-43a3-b10e-40c307226edb  *******/
   reset() {
     clearAllIntervals();
     window.cancelAnimationFrame(this.drawRequest);
@@ -174,13 +170,11 @@ class World {
   }
 
 
-  /*************  ✨ Codeium Command ⭐  *************/
   /**
    * Ends the game by clearing all intervals, cancelling the animation frame, reinitializing
    * the level, toggling the start screen, and pausing all music.
    * @private
    */
-  /******  22fb4e30-b987-40a7-b347-1de81ac1170c  *******/
   endGame() {
     clearAllIntervals();
     window.cancelAnimationFrame(this.drawRequest);

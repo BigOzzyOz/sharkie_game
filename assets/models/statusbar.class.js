@@ -7,7 +7,6 @@ class Statusbar extends DrawableObjects {
   coinCounter;
 
 
-  /*************  ✨ Codeium Command ⭐  *************/
   /**
    * Constructor for Statusbar objects.
    * @param {number} x - The x-coordinate of the Statusbar.
@@ -16,7 +15,6 @@ class Statusbar extends DrawableObjects {
    * @param {number} bar - A number indicating which type of status bar to create.
    * 0 for life, 1 for poison counter, and 2 for coin counter.
    */
-  /******  526fafa8-68b8-45c5-8876-41383541f461  *******/
   constructor(x, y, width, bar) {
     super();
     this.x = x;
