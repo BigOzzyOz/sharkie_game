@@ -62,7 +62,15 @@ window.addEventListener('keyup', (e) => {
 });
 
 
+/**
+ * Prevents the default context menu (right-click menu) from appearing on the entire HTML document.
+ *
+ * @param {Event} e - The contextmenu event.
+ * @returns {void}
+ */
 document.addEventListener('contextmenu', e => e.preventDefault());
+
+
 /**
  * Clears all currently set intervals.
  * @function
