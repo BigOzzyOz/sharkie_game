@@ -23,9 +23,11 @@ body {
 }
 
 main {
+  display: flex;
   position: relative;
   border: 5px solid black;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 canvas {
@@ -371,7 +373,7 @@ img.key {
 
 .endGame p {
   color: rgb(251, 255, 0);
-  font-size: 40px;
+  font-size: 3vmin;
   text-align: center;
 }
 
@@ -396,7 +398,7 @@ img.key {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 32px;
+  font-size: 3vmin;
   cursor: pointer;
 }
 
@@ -409,23 +411,105 @@ img.key {
 
 #gameOverlay {
   position: absolute;
-  top: 24px;
+  top: 5%;
   left: 50%;
-  width: 160px;
+  width: 20%;
   display: flex;
   justify-content: flex-end;
 }
 
 
 #gameOverlay img {
-  height: 32px;
+  height: 7%;
   width: auto;
   cursor: pointer;
 }
 
-
 #gameOverlay img:hover {
   filter: drop-shadow(16px 16px 20px rgb(255, 99, 71)) hue-rotate(310deg);
+}
+
+#overlay {
+  display: flex;
+  justify-content: center;
+}
+
+
+#mobileOverlay {
+  position: absolute;
+  width: 45%;
+  height: 25%;
+  bottom: 8px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 28% 7% 14% 14% 7% 28%;
+  grid-template-rows: 28% 7% 28% 7% 28%;
+  grid-template-areas:
+    "leftup up up up up rightup"
+    "left a a b b right"
+    "left a a b b right"
+    "left a a b b right"
+    "leftdown down down down down rightdown";
+  grid-gap: 1%;
+  justify-items: center;
+  align-items: center;
+  opacity: 0.7;
+}
+
+#mobileOverlay .mobileButton {
+  width: 100%;
+  height: 100%;
+  background-color: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3vmin;
+  font-weight: bold;
+  user-select: none;
+}
+
+.leftup {
+  grid-area: leftup;
+}
+
+.up {
+  grid-area: up;
+}
+
+.rightup {
+  grid-area: rightup;
+}
+
+.left {
+  grid-area: left;
+}
+
+.a {
+  grid-area: a;
+}
+
+.b {
+  grid-area: b;
+}
+
+.right {
+  grid-area: right;
+}
+
+.leftdown {
+  grid-area: leftdown;
+}
+
+.down {
+  grid-area: down;
+}
+
+.rightdown {
+  grid-area: rightdown;
+}
+
+#mobileOverlay {
+  display: none;
 }
 
 @keyframes l7 {
@@ -438,19 +522,41 @@ img.key {
   }
 }
 
-@media only screen and (max-width: 760px) {
-  main {
-    width: 100%;
+
+@media only screen and (max-height: 700px) {
+  h1 {
+    display: none;
+  }
+}
+
+@media only screen and (max-height: 480px) {
+
+  main,
+  canvas {
+    height: 100dvh;
+    width: auto;
   }
 
 }
 
-@media only screen and (max-height: 480px) {
-  main {
-    height: 100vh;
+
+@media only screen and (max-width: 740px) {
+
+  main,
+  canvas {
+    width: 100%;
+    height: auto;
   }
 
   h1 {
     display: none;
   }
+}
+
+@media (pointer: coarse) {
+
+  #mobileOverlay {
+    display: grid;
+  }
+
 }
