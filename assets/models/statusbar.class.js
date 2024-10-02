@@ -6,6 +6,17 @@ class Statusbar extends DrawableObjects {
   poisonCounter;
   coinCounter;
 
+
+  /*************  ✨ Codeium Command ⭐  *************/
+  /**
+   * Constructor for Statusbar objects.
+   * @param {number} x - The x-coordinate of the Statusbar.
+   * @param {number} y - The y-coordinate of the Statusbar.
+   * @param {number} width - The width of the Statusbar.
+   * @param {number} bar - A number indicating which type of status bar to create.
+   * 0 for life, 1 for poison counter, and 2 for coin counter.
+   */
+  /******  526fafa8-68b8-45c5-8876-41383541f461  *******/
   constructor(x, y, width, bar) {
     super();
     this.x = x;
@@ -25,6 +36,10 @@ class Statusbar extends DrawableObjects {
   }
 
 
+  /**
+   * Updates the life counter in the status bar.
+   * @param {number} life - The number of lives left.
+   */
   updateLife(life) {
     this.currentLife = life;
     let path = this.imagesLife[this.imgIndex()];
@@ -32,6 +47,11 @@ class Statusbar extends DrawableObjects {
   }
 
 
+  /**
+   * Returns the index of the image in the imagesLife array that should be
+   * displayed based on the current number of lives left.
+   * @return {number} The index of the image in the imagesLife array.
+   */
   imgIndex() {
     if (this.currentLife === 100) return 0;
     else if (this.currentLife >= 80) return 1;

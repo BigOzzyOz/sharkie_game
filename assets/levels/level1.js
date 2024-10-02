@@ -211,17 +211,17 @@ function initializeLevel1() {
 
     [
       'assets/img/3. Background/Layers/5. Water/L1.png',
-      'assets/img/3. Background/Layers/4.Fondo 2/D1.png',
-      'assets/img/3. Background/Layers/3.Fondo 1/D1.png',
-      'assets/img/3. Background/Layers/2. Floor/D1.png',
+      'assets/img/3. Background/Layers/4.Fondo 2/L1.png',
+      'assets/img/3. Background/Layers/3.Fondo 1/L1.png',
+      'assets/img/3. Background/Layers/2. Floor/L1.png',
       'assets/img/3. Background/Layers/1. Light/1.png'
     ],
 
     [
       'assets/img/3. Background/Layers/5. Water/L2.png',
-      'assets/img/3. Background/Layers/4.Fondo 2/D2.png',
-      'assets/img/3. Background/Layers/3.Fondo 1/D2.png',
-      'assets/img/3. Background/Layers/2. Floor/D2.png',
+      'assets/img/3. Background/Layers/4.Fondo 2/L2.png',
+      'assets/img/3. Background/Layers/3.Fondo 1/L2.png',
+      'assets/img/3. Background/Layers/2. Floor/L2.png',
       'assets/img/3. Background/Layers/1. Light/2.png'
     ],
 
